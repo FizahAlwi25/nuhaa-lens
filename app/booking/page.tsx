@@ -8,12 +8,575 @@ import {
   MapPin, MessageSquare, CheckCircle, Camera, Video, Mic, 
   Users, Heart, Sparkles, Zap, ChevronLeft, ChevronRight, 
   Star, Clock, Shield, Award, Gift, ArrowRight, PartyPopper,
-  ChevronDown, X, FolderOpen, Music2, Facebook, Package,
+  ChevronDown, X, Music2, Facebook, Package,
   HeartHandshake, GraduationCap, Briefcase, PartyPopper as PartyIcon,
-  Camera as CameraIcon, Film, Mic2, Crown, Layers, Baby,
-  Coffee, Music, Theater, Utensils, Sparkle, Smile
+  Camera as CameraIcon, Film, Mic2, Crown, Layers,
+  Sparkle, Smile
 } from 'lucide-react'
 
+type Language = 'en' | 'bm';
+
+interface Translations {
+  [key: string]: {
+    [key: string]: string;
+  };
+}
+
+const translations: Translations = {
+  // Navigation
+  'home': {
+    en: 'Home',
+    bm: 'Laman Utama'
+  },
+  'booking': {
+    en: 'Booking',
+    bm: 'Tempahan'
+  },
+  'portfolio': {
+    en: 'Portfolio',
+    bm: 'Portfolio'
+  },
+  'services': {
+    en: 'Services',
+    bm: 'Perkhidmatan'
+  },
+  'quickLinks': {
+    en: 'Quick Links',
+    bm: 'Pautan Pantas'
+  },
+  'followUs': {
+    en: 'Follow Us',
+    bm: 'Ikuti Kami'
+  },
+  'rightsReserved': {
+    en: 'All rights reserved',
+    bm: 'Hak cipta terpelihara'
+  },
+  
+  // Booking Page
+  'bookYourServices': {
+    en: 'Book Your Services',
+    bm: 'Tempah Perkhidmatan Anda'
+  },
+  'with': {
+    en: 'with',
+    bm: 'dengan'
+  },
+  'selectServices': {
+    en: 'Select Services',
+    bm: 'Pilih Perkhidmatan'
+  },
+  'yourDetails': {
+    en: 'Your Details',
+    bm: 'Maklumat Anda'
+  },
+  'confirmation': {
+    en: 'Confirmation',
+    bm: 'Pengesahan'
+  },
+  'selectYourServices': {
+    en: 'Select Your Services',
+    bm: 'Pilih Perkhidmatan Anda'
+  },
+  'chooseServicesDesc': {
+    en: 'Choose one or multiple services for your event',
+    bm: 'Pilih satu atau pelbagai perkhidmatan untuk acara anda'
+  },
+  'backToHome': {
+    en: 'Back to Home',
+    bm: 'Kembali ke Laman Utama'
+  },
+  'continueToDetails': {
+    en: 'Continue to Details',
+    bm: 'Teruskan ke Maklumat'
+  },
+  'yourInformation': {
+    en: 'Your Information',
+    bm: 'Maklumat Anda'
+  },
+  'selectEventDate': {
+    en: 'Select Event Date',
+    bm: 'Pilih Tarikh Acara'
+  },
+  'selected': {
+    en: 'Selected',
+    bm: 'Dipilih'
+  },
+  'available': {
+    en: 'Available',
+    bm: 'Tersedia'
+  },
+  'partiallyBooked': {
+    en: 'Partially Booked',
+    bm: 'Sebahagian Ditempah'
+  },
+  'fullyBooked': {
+    en: 'Fully Booked',
+    bm: 'Penuh Ditempah'
+  },
+  'selectedDate': {
+    en: 'Selected Date',
+    bm: 'Tarikh Dipilih'
+  },
+  'thisDateHas': {
+    en: 'This date has some services booked',
+    bm: 'Tarikh ini mempunyai beberapa perkhidmatan yang ditempah'
+  },
+  'fullName': {
+    en: 'Full Name',
+    bm: 'Nama Penuh'
+  },
+  'emailAddress': {
+    en: 'Email Address',
+    bm: 'Alamat Emel'
+  },
+  'phoneNumber': {
+    en: 'Phone Number',
+    bm: 'Nombor Telefon'
+  },
+  'instagramOptional': {
+    en: 'Instagram (optional)',
+    bm: 'Instagram (pilihan)'
+  },
+  'eventLocation': {
+    en: 'Event Location',
+    bm: 'Lokasi Acara'
+  },
+  'eventType': {
+    en: 'Event Type',
+    bm: 'Jenis Acara'
+  },
+  'specialRequests': {
+    en: 'Special Requests or Notes',
+    bm: 'Permintaan Khas atau Nota'
+  },
+  'tellUsAbout': {
+    en: 'Tell us about your vision or any special requirements...',
+    bm: 'Beritahu kami tentang visi anda atau sebarang keperluan khas...'
+  },
+  'back': {
+    en: 'Back',
+    bm: 'Kembali'
+  },
+  'submitBooking': {
+    en: 'Submit Booking',
+    bm: 'Hantar Tempahan'
+  },
+  'bookingReceived': {
+    en: 'Booking Received!',
+    bm: 'Tempahan Diterima!'
+  },
+  'thankYouMessage': {
+    en: 'Thank you for choosing Nuhaa Lens. We\'ll contact you within 24 hours to confirm your booking and discuss the details.',
+    bm: 'Terima kasih kerana memilih Nuhaa Lens. Kami akan menghubungi anda dalam masa 24 jam untuk mengesahkan tempahan dan membincangkan butiran.'
+  },
+  'bookingSummary': {
+    en: 'Booking Summary',
+    bm: 'Ringkasan Tempahan'
+  },
+  'total': {
+    en: 'Total',
+    bm: 'Jumlah'
+  },
+  'eventDate': {
+    en: 'Event Date',
+    bm: 'Tarikh Acara'
+  },
+  'returnToHome': {
+    en: 'Return to Home',
+    bm: 'Kembali ke Laman Utama'
+  },
+  'viewPortfolio': {
+    en: 'View Portfolio',
+    bm: 'Lihat Portfolio'
+  },
+  
+  // Event Types
+  'wedding': {
+    en: 'Wedding',
+    bm: 'Perkahwinan'
+  },
+  'engagement': {
+    en: 'Engagement',
+    bm: 'Pertunangan'
+  },
+  'corporate': {
+    en: 'Corporate Event',
+    bm: 'Acara Korporat'
+  },
+  'birthday': {
+    en: 'Birthday Party',
+    bm: 'Majlis Hari Jadi'
+  },
+  'maternity': {
+    en: 'Maternity Shoot',
+    bm: 'Penggambaran Maternity'
+  },
+  'aqiqah': {
+    en: 'Aqiqah',
+    bm: 'Aqiqah'
+  },
+  'convocation': {
+    en: 'Convocation/Graduation',
+    bm: 'Konvokesyen'
+  },
+  'other': {
+    en: 'Other',
+    bm: 'Lain-lain'
+  },
+  
+  // Photography Categories
+  'weddingPhotography': {
+    en: 'Wedding Photography',
+    bm: 'Fotografi Perkahwinan'
+  },
+  'weddingPhotographyDesc': {
+    en: 'Capture your special day with our comprehensive wedding packages',
+    bm: 'Abadikan hari istimewa anda dengan pakej perkahwinan komprehensif kami'
+  },
+  'engagementPhotography': {
+    en: 'Engagement Photography',
+    bm: 'Fotografi Pertunangan'
+  },
+  'engagementPhotographyDesc': {
+    en: 'Beautiful engagement shoots to celebrate your love story',
+    bm: 'Penggambaran pertunangan indah untuk meraikan kisah cinta anda'
+  },
+  'convocationPhotography': {
+    en: 'Convocation Photography',
+    bm: 'Fotografi Konvokesyen'
+  },
+  'convocationPhotographyDesc': {
+    en: 'Professional graduation photos to mark your achievement',
+    bm: 'Foto graduasi profesional untuk menandakan pencapaian anda'
+  },
+  'formalEvents': {
+    en: 'Formal Events',
+    bm: 'Acara Formal'
+  },
+  'formalEventsDesc': {
+    en: 'Corporate and formal event coverage',
+    bm: 'Liputan acara korporat dan formal'
+  },
+  'otherEvents': {
+    en: 'Other Events',
+    bm: 'Acara Lain'
+  },
+  'otherEventsDesc': {
+    en: 'Birthday, maternity, aqiqah and more',
+    bm: 'Hari jadi, maternity, aqiqah dan banyak lagi'
+  },
+  'photographyPackages': {
+    en: 'Photography Packages',
+    bm: 'Pakej Fotografi'
+  },
+  'packages': {
+    en: 'Packages',
+    bm: 'Pakej'
+  },
+  'mostPopular': {
+    en: 'Most Popular',
+    bm: 'Paling Popular'
+  },
+  'note': {
+    en: 'Note',
+    bm: 'Nota'
+  },
+  'selectThisPackage': {
+    en: 'Select This Package',
+    bm: 'Pilih Pakej Ini'
+  },
+  'addAnotherPackage': {
+    en: 'Add Another Package',
+    bm: 'Tambah Pakej Lain'
+  },
+  'selectPhotographyPackage': {
+    en: 'Select Photography Package',
+    bm: 'Pilih Pakej Fotografi'
+  },
+  
+  // Service Names
+  'photography': {
+    en: 'Photography',
+    bm: 'Fotografi'
+  },
+  'photographyDesc': {
+    en: 'Professional photography coverage for all occasions',
+    bm: 'Liputan fotografi profesional untuk semua majlis'
+  },
+  'videography': {
+    en: 'Videography',
+    bm: 'Videografi'
+  },
+  'videographyDesc': {
+    en: 'Cinematic wedding videography',
+    bm: 'Videografi perkahwinan sinematik'
+  },
+  'emcee': {
+    en: 'Emcee Services',
+    bm: 'Perkhidmatan Pengacara'
+  },
+  'emceeDesc': {
+    en: 'Professional bilingual emcee',
+    bm: 'Pengacara dwibahasa profesional'
+  },
+  'contentCreator': {
+    en: 'Wedding Content Creator',
+    bm: 'Pencipta Kandungan Perkahwinan'
+  },
+  'contentCreatorDesc': {
+    en: 'Real-time social media content',
+    bm: 'Kandungan media sosial masa nyata'
+  },
+  'brideAssistant': {
+    en: 'Bride Assistant',
+    bm: 'Pembantu Pengantin'
+  },
+  'brideAssistantDesc': {
+    en: 'Personal assistant for the bride',
+    bm: 'Pembantu peribadi untuk pengantin perempuan'
+  },
+  'floorManager': {
+    en: 'Floor Manager',
+    bm: 'Pengurus Lantai'
+  },
+  'floorManagerDesc': {
+    en: 'Event coordination specialist',
+    bm: 'Pakar koordinasi acara'
+  },
+  'liveStreaming': {
+    en: 'MCP Live Streaming',
+    bm: 'Siaran Langsung MCP'
+  },
+  'liveStreamingDesc': {
+    en: 'Multi-camera live streaming',
+    bm: 'Siaran langsung berbilang kamera'
+  },
+  'websiteDev': {
+    en: 'Website Development',
+    bm: 'Pembangunan Laman Web'
+  },
+  'websiteDevDesc': {
+    en: 'Custom website development services',
+    bm: 'Perkhidmatan pembangunan laman web tersuai'
+  },
+  
+  // Package Features
+  'multiplePackages': {
+    en: 'Multiple packages available',
+    bm: 'Pelbagai pakej tersedia'
+  },
+  'professionalEditing': {
+    en: 'Professional editing',
+    bm: 'Suntingan profesional'
+  },
+  'digitalDelivery': {
+    en: 'Digital delivery',
+    bm: 'Penghantaran digital'
+  },
+  'highlightVideo': {
+    en: 'Highlight video',
+    bm: 'Video sorotan'
+  },
+  'fullCeremony': {
+    en: 'Full ceremony',
+    bm: 'Majlis penuh'
+  },
+  'droneShots': {
+    en: 'Drone shots',
+    bm: 'Rakaman drone'
+  },
+  'scriptWriting': {
+    en: 'Script writing',
+    bm: 'Penulisan skrip'
+  },
+  'coordination': {
+    en: 'Coordination',
+    bm: 'Koordinasi'
+  },
+  'twoLanguages': {
+    en: '2 languages',
+    bm: '2 bahasa'
+  },
+  'instagramStories': {
+    en: 'Instagram stories',
+    bm: 'Cerita Instagram'
+  },
+  'tiktokReels': {
+    en: 'TikTok reels',
+    bm: 'Reel TikTok'
+  },
+  'behindTheScenes': {
+    en: 'Behind the scenes',
+    bm: 'Di belakang tabir'
+  },
+  'dressHandling': {
+    en: 'Dress handling',
+    bm: 'Pengurusan pakaian'
+  },
+  'emergencyKit': {
+    en: 'Emergency kit',
+    bm: 'Kit kecemasan'
+  },
+  'touchUps': {
+    en: 'Touch-ups',
+    bm: 'Sentuhan akhir'
+  },
+  'timelineManagement': {
+    en: 'Timeline management',
+    bm: 'Pengurusan masa'
+  },
+  'vendorCoordination': {
+    en: 'Vendor coordination',
+    bm: 'Koordinasi vendor'
+  },
+  'cueManagement': {
+    en: 'Cue management',
+    bm: 'Pengurusan isyarat'
+  },
+  'fourKStreaming': {
+    en: '4K streaming',
+    bm: 'Siaran 4K'
+  },
+  'multipleAngles': {
+    en: 'Multiple angles',
+    bm: 'Pelbagai sudut'
+  },
+  'recordingIncluded': {
+    en: 'Recording included',
+    bm: 'Rakaman disertakan'
+  },
+  'responsiveDesign': {
+    en: 'Responsive design',
+    bm: 'Reka bentuk responsif'
+  },
+  'seoOptimized': {
+    en: 'SEO optimized',
+    bm: 'Dioptimumkan SEO'
+  },
+  'ecommerceReady': {
+    en: 'E-commerce ready',
+    bm: 'Sedia e-dagang'
+  },
+  
+  // Calendar
+  'sun': {
+    en: 'Sun',
+    bm: 'Ahd'
+  },
+  'mon': {
+    en: 'Mon',
+    bm: 'Isn'
+  },
+  'tue': {
+    en: 'Tue',
+    bm: 'Sel'
+  },
+  'wed': {
+    en: 'Wed',
+    bm: 'Rab'
+  },
+  'thu': {
+    en: 'Thu',
+    bm: 'Kha'
+  },
+  'fri': {
+    en: 'Fri',
+    bm: 'Jum'
+  },
+  'sat': {
+    en: 'Sat',
+    bm: 'Sab'
+  },
+  
+  // Placeholders
+  'enterFullName': {
+    en: 'Enter your full name',
+    bm: 'Masukkan nama penuh anda'
+  },
+  'emailPlaceholder': {
+    en: 'your@email.com',
+    bm: 'anda@email.com'
+  },
+  'phonePlaceholder': {
+    en: '012-3456789',
+    bm: '012-3456789'
+  },
+  'instagramPlaceholder': {
+    en: '@yourusername',
+    bm: '@namapenggunaanda'
+  },
+  'locationPlaceholder': {
+    en: 'City, Venue',
+    bm: 'Bandar, Tempat'
+  },
+};
+
+// Language Toggle Component
+interface LanguageToggleProps {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+}
+
+function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
+  return (
+    <motion.div
+      className="fixed z-50"
+      style={{ 
+        top: '2vh', 
+        right: '2vw',
+        position: 'fixed' // Explicitly set fixed positioning
+      }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.5 }}
+    >
+      <motion.div
+        className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <motion.button
+          onClick={() => setLanguage('en')}
+          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+            language === 'en' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">EN</span>
+          {language === 'en' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+
+        <motion.button
+          onClick={() => setLanguage('bm')}
+          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+            language === 'bm' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">BM</span>
+          {language === 'bm' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+}
 // Social media links
 const socialLinks = {
   instagram: "https://www.instagram.com/nuhaa_lens?igsh=OWg0cGY2OGtpdTdm",
@@ -25,360 +588,497 @@ const socialLinks = {
 const photographyPackages = {
   wedding: [
     {
-      name: "Nikah",
+      name: { en: "Nikah", bm: "Nikah" },
       price: "RM 500",
-      duration: "3 hours",
-      features: [
-        "3 hours of coverage",
-        "Unlimited shoot",
-        "One Photographer",
-        "All Edited Softcopy",
-        "Free Outdoor Session",
-      ],
+      duration: { en: "3 hours", bm: "3 jam" },
+      features: {
+        en: [
+          "3 hours of coverage",
+          "Unlimited shoot",
+          "One Photographer",
+          "All Edited Softcopy",
+          "Free Outdoor Session",
+        ],
+        bm: [
+          "Liputan 3 jam",
+          "Gambar tanpa had",
+          "Seorang Jurugambar",
+          "Semua Salinan Lembut Diedit",
+          "Sesi Luar Percuma",
+        ]
+      },
     },
     {
-      name: "Sanding",
+      name: { en: "Sanding", bm: "Sanding" },
       price: "RM 600",
-      duration: "4 hours",
-      features: [
-        "4 hours of coverage",
-        "Unlimited shoot",
-        "One Photographer",
-        "All Edited Softcopy",
-        "Free Outdoor Session",
-      ],
+      duration: { en: "4 hours", bm: "4 jam" },
+      features: {
+        en: [
+          "4 hours of coverage",
+          "Unlimited shoot",
+          "One Photographer",
+          "All Edited Softcopy",
+          "Free Outdoor Session",
+        ],
+        bm: [
+          "Liputan 4 jam",
+          "Gambar tanpa had",
+          "Seorang Jurugambar",
+          "Semua Salinan Lembut Diedit",
+          "Sesi Luar Percuma",
+        ]
+      },
     },
     {
-      name: "Nikah & Sanding",
+      name: { en: "Nikah & Sanding", bm: "Nikah & Sanding" },
       price: "RM 900",
-      duration: "7 hours",
-      features: [
-        "7 hours of coverage",
-        "Unlimited shoot",
-        "One Photographer",
-        "All Edited Softcopy",
-        "Different day (add RM 50)",
-      ],
-      note: "Different day add RM 50",
+      duration: { en: "7 hours", bm: "7 jam" },
+      features: {
+        en: [
+          "7 hours of coverage",
+          "Unlimited shoot",
+          "One Photographer",
+          "All Edited Softcopy",
+          "Different day (add RM 50)",
+        ],
+        bm: [
+          "Liputan 7 jam",
+          "Gambar tanpa had",
+          "Seorang Jurugambar",
+          "Semua Salinan Lembut Diedit",
+          "Hari berbeza (tambah RM 50)",
+        ]
+      },
+      note: { en: "Different day add RM 50", bm: "Hari berbeza tambah RM 50" },
     },
   ],
   engagement: [
     {
-      name: "Rahmah Package",
+      name: { en: "Rahmah Package", bm: "Pakej Rahmah" },
       price: "RM 350",
-      duration: "2 hours",
-      features: [
-        "2 hours of coverage",
-        "Unlimited shoot",
-        "One photographer",
-        "All edited Softcopy",
-      ],
+      duration: { en: "2 hours", bm: "2 jam" },
+      features: {
+        en: [
+          "2 hours of coverage",
+          "Unlimited shoot",
+          "One photographer",
+          "All edited Softcopy",
+        ],
+        bm: [
+          "Liputan 2 jam",
+          "Gambar tanpa had",
+          "Seorang jurugambar",
+          "Semua Salinan Lembut Diedit",
+        ]
+      },
     },
     {
-      name: "Basic Package",
+      name: { en: "Basic Package", bm: "Pakej Asas" },
       price: "RM 450",
-      duration: "3 hours",
-      features: [
-        "3 hours of coverage",
-        "Unlimited shoot",
-        "One photographer",
-        "All edited Softcopy",
-      ],
+      duration: { en: "3 hours", bm: "3 jam" },
+      features: {
+        en: [
+          "3 hours of coverage",
+          "Unlimited shoot",
+          "One photographer",
+          "All edited Softcopy",
+        ],
+        bm: [
+          "Liputan 3 jam",
+          "Gambar tanpa had",
+          "Seorang jurugambar",
+          "Semua Salinan Lembut Diedit",
+        ]
+      },
     },
     {
-      name: "Special Package",
+      name: { en: "Special Package", bm: "Pakej Istimewa" },
       price: "RM 550",
-      duration: "4-5 hours",
-      features: [
-        "4-5 hours of coverage",
-        "Unlimited shoot",
-        "One photographer",
-        "All edited Softcopy",
-        "Including Outdoor Session",
-      ],
+      duration: { en: "4-5 hours", bm: "4-5 jam" },
+      features: {
+        en: [
+          "4-5 hours of coverage",
+          "Unlimited shoot",
+          "One photographer",
+          "All edited Softcopy",
+          "Including Outdoor Session",
+        ],
+        bm: [
+          "Liputan 4-5 jam",
+          "Gambar tanpa had",
+          "Seorang jurugambar",
+          "Semua Salinan Lembut Diedit",
+          "Termasuk Sesi Luar",
+        ]
+      },
     },
   ],
   convocation: [
     {
-      name: "Solo Package",
+      name: { en: "Solo Package", bm: "Pakej Solo" },
       price: "RM 120",
-      duration: "1 hour",
-      features: [
-        "1 hour of coverage",
-        "Unlimited shoot",
-        "All edited Softcopy",
-        "1 Place only",
-      ],
+      duration: { en: "1 hour", bm: "1 jam" },
+      features: {
+        en: [
+          "1 hour of coverage",
+          "Unlimited shoot",
+          "All edited Softcopy",
+          "1 Place only",
+        ],
+        bm: [
+          "Liputan 1 jam",
+          "Gambar tanpa had",
+          "Semua Salinan Lembut Diedit",
+          "1 Tempat sahaja",
+        ]
+      },
     },
     {
-      name: "Family Package",
+      name: { en: "Family Package", bm: "Pakej Keluarga" },
       price: "RM 170",
-      duration: "1 hour",
-      features: [
-        "1 hour of coverage",
-        "Unlimited shoot",
-        "All edited Softcopy",
-        "1 Place only",
-      ],
+      duration: { en: "1 hour", bm: "1 jam" },
+      features: {
+        en: [
+          "1 hour of coverage",
+          "Unlimited shoot",
+          "All edited Softcopy",
+          "1 Place only",
+        ],
+        bm: [
+          "Liputan 1 jam",
+          "Gambar tanpa had",
+          "Semua Salinan Lembut Diedit",
+          "1 Tempat sahaja",
+        ]
+      },
     },
     {
-      name: "Friend Package",
+      name: { en: "Friend Package", bm: "Pakej Rakan" },
       price: "RM 55/Head",
-      duration: "1.5 hours",
-      features: [
-        "2 - 4 Pax",
-        "1.5 hours of coverage",
-        "Unlimited shoot",
-        "All edited Softcopy",
-        "1 Place only",
-      ],
+      duration: { en: "1.5 hours", bm: "1.5 jam" },
+      features: {
+        en: [
+          "2 - 4 Pax",
+          "1.5 hours of coverage",
+          "Unlimited shoot",
+          "All edited Softcopy",
+          "1 Place only",
+        ],
+        bm: [
+          "2 - 4 Orang",
+          "Liputan 1.5 jam",
+          "Gambar tanpa had",
+          "Semua Salinan Lembut Diedit",
+          "1 Tempat sahaja",
+        ]
+      },
     },
     {
-      name: "Group Package",
+      name: { en: "Group Package", bm: "Pakej Kumpulan" },
       price: "RM 45/Head",
-      duration: "2 hours",
-      features: [
-        "5 - 10 Pax",
-        "2 hours of coverage",
-        "All edited Softcopy",
-        "1 Place only",
-      ],
+      duration: { en: "2 hours", bm: "2 jam" },
+      features: {
+        en: [
+          "5 - 10 Pax",
+          "2 hours of coverage",
+          "All edited Softcopy",
+          "1 Place only",
+        ],
+        bm: [
+          "5 - 10 Orang",
+          "Liputan 2 jam",
+          "Semua Salinan Lembut Diedit",
+          "1 Tempat sahaja",
+        ]
+      },
     },
   ],
   formalEvents: [
     {
-      name: "Formal Events",
+      name: { en: "Formal Events", bm: "Acara Formal" },
       price: "RM 150/hour",
-      duration: "Per hour",
-      features: [
-        "Corporate events",
-        "Seminars",
-        "Conferences",
-        "Awards night",
-        "Professional coverage",
-      ],
+      duration: { en: "Per hour", bm: "Setiap jam" },
+      features: {
+        en: [
+          "Corporate events",
+          "Seminars",
+          "Conferences",
+          "Awards night",
+          "Professional coverage",
+        ],
+        bm: [
+          "Acara korporat",
+          "Seminar",
+          "Persidangan",
+          "Malam anugerah",
+          "Liputan profesional",
+        ]
+      },
     },
   ],
   otherEvents: [
     {
-      name: "Birthday Party",
+      name: { en: "Birthday Party", bm: "Majlis Hari Jadi" },
       price: "RM 120/hour",
-      duration: "Per hour",
-      features: [
-        "Birthday celebrations",
-        "Family gatherings",
-        "Candid moments",
-        "Group photos",
-      ],
+      duration: { en: "Per hour", bm: "Setiap jam" },
+      features: {
+        en: [
+          "Birthday celebrations",
+          "Family gatherings",
+          "Candid moments",
+          "Group photos",
+        ],
+        bm: [
+          "Sambutan hari jadi",
+          "Perhimpunan keluarga",
+          "Detik candid",
+          "Foto kumpulan",
+        ]
+      },
     },
     {
-      name: "Maternity Shoot",
+      name: { en: "Maternity Shoot", bm: "Penggambaran Maternity" },
       price: "RM 120/hour",
-      duration: "Per hour",
-      features: [
-        "Beautiful maternity moments",
-        "Indoor/outdoor options",
-        "Professional editing",
-        "All softcopies",
-      ],
+      duration: { en: "Per hour", bm: "Setiap jam" },
+      features: {
+        en: [
+          "Beautiful maternity moments",
+          "Indoor/outdoor options",
+          "Professional editing",
+          "All softcopies",
+        ],
+        bm: [
+          "Detik maternity indah",
+          "Pilihan dalam/luar",
+          "Suntingan profesional",
+          "Semua salinan lembut",
+        ]
+      },
     },
     {
-      name: "Aqiqah",
+      name: { en: "Aqiqah", bm: "Aqiqah" },
       price: "RM 120/hour",
-      duration: "Per hour",
-      features: [
-        "Aqiqah ceremony",
-        "Family moments",
-        "Traditional documentation",
-        "All edited photos",
-      ],
+      duration: { en: "Per hour", bm: "Setiap jam" },
+      features: {
+        en: [
+          "Aqiqah ceremony",
+          "Family moments",
+          "Traditional documentation",
+          "All edited photos",
+        ],
+        bm: [
+          "Majlis aqiqah",
+          "Detik keluarga",
+          "Dokumentasi tradisional",
+          "Semua foto diedit",
+        ]
+      },
     },
   ],
   additional: [
     {
-      name: "Album/Photobook",
+      name: { en: "Album/Photobook", bm: "Album/Buku Foto" },
       price: "RM 85",
-      duration: "One-time",
-      features: [
-        "Premium quality",
-        "Custom design",
-        "20 pages",
-        "Hardcover",
-      ],
+      duration: { en: "One-time", bm: "Sekali" },
+      features: {
+        en: [
+          "Premium quality",
+          "Custom design",
+          "20 pages",
+          "Hardcover",
+        ],
+        bm: [
+          "Kualiti premium",
+          "Reka bentuk tersuai",
+          "20 muka surat",
+          "Kulit keras",
+        ]
+      },
     },
     {
-      name: "Add Hours",
+      name: { en: "Add Hours", bm: "Tambah Jam" },
       price: "RM 100/hour",
-      duration: "Per additional hour",
-      features: [
-        "Valid for Wedding packages",
-        "Valid for Engagement packages",
-        "Valid for Convocation packages",
-      ],
+      duration: { en: "Per additional hour", bm: "Setiap jam tambahan" },
+      features: {
+        en: [
+          "Valid for Wedding packages",
+          "Valid for Engagement packages",
+          "Valid for Convocation packages",
+        ],
+        bm: [
+          "Sah untuk pakej Perkahwinan",
+          "Sah untuk pakej Pertunangan",
+          "Sah untuk pakej Konvokesyen",
+        ]
+      },
     },
     {
-      name: "Add Outdoor Session",
+      name: { en: "Add Outdoor Session", bm: "Tambah Sesi Luar" },
       price: "RM 120",
-      duration: "One session",
-      features: [
-        "Valid for Wedding packages",
-        "Valid for Engagement packages",
-        "Additional location",
-        "Extra shooting time",
-      ],
+      duration: { en: "One session", bm: "Satu sesi" },
+      features: {
+        en: [
+          "Valid for Wedding packages",
+          "Valid for Engagement packages",
+          "Additional location",
+          "Extra shooting time",
+        ],
+        bm: [
+          "Sah untuk pakej Perkahwinan",
+          "Sah untuk pakej Pertunangan",
+          "Lokasi tambahan",
+          "Masa penggambaran tambahan",
+        ]
+      },
     },
   ],
 }
 
 // Photography Categories with icons and colors
-const photographyCategories = [
+const photographyCategories = (t: (key: string) => string) => [
   {
     id: "wedding",
-    name: "Wedding Photography",
+    name: t('weddingPhotography'),
     icon: HeartHandshake,
-    description: "Capture your special day with our comprehensive wedding packages",
+    description: t('weddingPhotographyDesc'),
     color: "from-pink-500 to-rose-500",
     packages: photographyPackages.wedding,
     eventTypes: ["wedding", "nikah", "sanding", "reception"]
   },
   {
     id: "engagement",
-    name: "Engagement Photography",
+    name: t('engagementPhotography'),
     icon: Heart,
-    description: "Beautiful engagement shoots to celebrate your love story",
+    description: t('engagementPhotographyDesc'),
     color: "from-purple-500 to-pink-500",
     packages: photographyPackages.engagement,
     eventTypes: ["engagement", "proposal", "pre-wedding"]
   },
   {
     id: "convocation",
-    name: "Convocation Photography",
+    name: t('convocationPhotography'),
     icon: GraduationCap,
-    description: "Professional graduation photos to mark your achievement",
+    description: t('convocationPhotographyDesc'),
     color: "from-blue-500 to-cyan-500",
     packages: photographyPackages.convocation,
     eventTypes: ["convocation", "graduation", "commencement"]
   },
   {
     id: "formalEvents",
-    name: "Formal Events",
+    name: t('formalEvents'),
     icon: Briefcase,
-    description: "Corporate and formal event coverage",
+    description: t('formalEventsDesc'),
     color: "from-gray-600 to-gray-800",
     packages: photographyPackages.formalEvents,
     eventTypes: ["corporate", "seminar", "conference", "awards", "gala"]
   },
   {
     id: "otherEvents",
-    name: "Other Events",
+    name: t('otherEvents'),
     icon: PartyIcon,
-    description: "Birthday, maternity, aqiqah and more",
+    description: t('otherEventsDesc'),
     color: "from-green-500 to-emerald-500",
     packages: photographyPackages.otherEvents,
     eventTypes: ["birthday", "maternity", "aqiqah", "family", "celebration"]
   },
 ]
 
-// Update the services array to include all photography categories
-const services = [
+// Update the services array to include all photography categories with translations
+const services = (t: (key: string) => string) => [
   { 
     id: 'photography', 
-    name: 'Photography', 
+    name: t('photography'), 
     basePrice: 'From RM 120', 
     icon: Camera,
-    description: 'Professional photography coverage for all occasions',
-    features: ['Multiple packages available', 'Professional editing', 'Digital delivery'],
+    description: t('photographyDesc'),
+    features: [t('multiplePackages'), t('professionalEditing'), t('digitalDelivery')],
     color: 'from-blue-500 to-cyan-500',
     hasSubServices: true,
-    categories: photographyCategories
   },
   { 
     id: 'videography', 
-    name: 'Videography', 
+    name: t('videography'), 
     basePrice: 'RM 2500', 
     icon: Video,
-    description: 'Cinematic wedding videography',
-    features: ['Highlight video', 'Full ceremony', 'Drone shots'],
+    description: t('videographyDesc'),
+    features: [t('highlightVideo'), t('fullCeremony'), t('droneShots')],
     color: 'from-purple-500 to-pink-500',
     hasSubServices: false
   },
   { 
     id: 'emcee', 
-    name: 'Emcee Services', 
+    name: t('emcee'), 
     basePrice: 'RM 250', 
     icon: Mic,
-    description: 'Professional bilingual emcee',
-    features: ['Script writing', 'Coordination', '2 languages'],
+    description: t('emceeDesc'),
+    features: [t('scriptWriting'), t('coordination'), t('twoLanguages')],
     color: 'from-yellow-500 to-orange-500',
     hasSubServices: false
   },
   { 
     id: 'content-creator', 
-    name: 'Wedding Content Creator', 
+    name: t('contentCreator'), 
     basePrice: 'RM 180', 
     icon: Sparkles,
-    description: 'Real-time social media content',
-    features: ['Instagram stories', 'TikTok reels', 'Behind the scenes'],
+    description: t('contentCreatorDesc'),
+    features: [t('instagramStories'), t('tiktokReels'), t('behindTheScenes')],
     color: 'from-pink-500 to-rose-500',
     hasSubServices: false
   },
   { 
     id: 'bride-assistant', 
-    name: 'Bride Assistant', 
+    name: t('brideAssistant'), 
     basePrice: 'From RM 150', 
     icon: Heart,
-    description: 'Personal assistant for the bride',
-    features: ['Dress handling', 'Emergency kit', 'Touch-ups'],
+    description: t('brideAssistantDesc'),
+    features: [t('dressHandling'), t('emergencyKit'), t('touchUps')],
     color: 'from-red-500 to-pink-500',
     hasSubServices: false
   },
   { 
     id: 'floor-manager', 
-    name: 'Floor Manager', 
+    name: t('floorManager'), 
     basePrice: 'From RM 700', 
     icon: Users,
-    description: 'Event coordination specialist',
-    features: ['Timeline management', 'Vendor coordination', 'Cue management'],
+    description: t('floorManagerDesc'),
+    features: [t('timelineManagement'), t('vendorCoordination'), t('cueManagement')],
     color: 'from-green-500 to-emerald-500',
     hasSubServices: false
   },
   { 
     id: 'live-streaming', 
-    name: 'MCP Live Streaming', 
+    name: t('liveStreaming'), 
     basePrice: 'From RM 2000', 
     icon: Zap,
-    description: 'Multi-camera live streaming',
-    features: ['4K streaming', 'Multiple angles', 'Recording included'],
+    description: t('liveStreamingDesc'),
+    features: [t('fourKStreaming'), t('multipleAngles'), t('recordingIncluded')],
     color: 'from-indigo-500 to-blue-500',
     hasSubServices: false
   },
   {
     id: 'website-dev',
-    name: 'Website Development',
+    name: t('websiteDev'),
     basePrice: 'From RM 2500',
     icon: Layers,
-    description: 'Custom website development services',
-    features: ['Responsive design', 'SEO optimized', 'E-commerce ready'],
+    description: t('websiteDevDesc'),
+    features: [t('responsiveDesign'), t('seoOptimized'), t('ecommerceReady')],
     color: 'from-red-500 to-orange-500',
     hasSubServices: false
   },
 ]
 
-// Add additional services
-const additionalServices = photographyPackages.additional.map(item => ({
-  id: item.name.toLowerCase().replace(/\s+/g, '-'),
-  name: item.name,
+// Add additional services - FIXED: Now returns proper structure with language-specific names
+const additionalServices = (t: (key: string) => string, language: Language) => photographyPackages.additional.map(item => ({
+  id: item.name.en.toLowerCase().replace(/\s+/g, '-'),
+  name: item.name[language], // This now returns a string, not an object
   basePrice: item.price,
   icon: Package,
-  description: item.features.join(' · '),
-  features: item.features,
+  description: item.features[language].join(' · '), // This now returns a string
+  features: item.features[language], // This now returns an array of strings
   color: 'from-green-500 to-emerald-500',
   hasSubServices: false,
   isAdditional: true
 }))
-
-// Combine all services
-const allServices = [...services, ...additionalServices]
 
 // Interface for selected photography package
 interface SelectedPhotoPackage {
@@ -427,11 +1127,13 @@ const FloatingParticle = ({ delay = 0, size = 4, left = '0%', top = '0%' }) => (
 interface CategoryModalProps {
   isOpen: boolean;
   onClose: () => void;
-  categories: typeof photographyCategories;
+  categories: ReturnType<typeof photographyCategories>;
   onSelectCategory: (category: any) => void;
+  t: (key: string) => string;
+  language: Language;
 }
 
-function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory }: CategoryModalProps) {
+function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory, t }: CategoryModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -452,7 +1154,7 @@ function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory 
         {/* Header */}
         <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center rounded-t-2xl">
           <h2 className="text-3xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-            Photography Packages
+            {t('photographyPackages')}
           </h2>
           <motion.button
             whileHover={{ scale: 1.1, rotate: 90 }}
@@ -495,7 +1197,7 @@ function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory 
                       <p className="text-white/80 text-sm mb-4">{category.description}</p>
                       <div className="flex items-center justify-between">
                         <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                          {category.packages.length} Packages
+                          {category.packages.length} {t('packages')}
                         </span>
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -517,9 +1219,11 @@ interface PackageModalProps {
   onClose: () => void;
   category: any;
   onSelectPackage: (categoryId: string, categoryName: string, packageIndex: number, pkg: any) => void;
+  t: (key: string) => string;
+  language: Language;
 }
 
-function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage }: PackageModalProps) {
+function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage, t, language }: PackageModalProps) {
   if (!isOpen || !category) return null;
 
   const IconComponent = category.icon
@@ -589,20 +1293,20 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage }: P
                     animate={{ x: 0 }}
                     className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold px-3 py-1 rounded-full"
                   >
-                    Most Popular
+                    {t('mostPopular')}
                   </motion.div>
                 )}
 
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">{pkg.name}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">{pkg.name[language]}</h3>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-3xl font-bold text-green-600">
                     {pkg.price}
                   </span>
-                  <span className="text-gray-500 text-sm">{pkg.duration}</span>
+                  <span className="text-gray-500 text-sm">{pkg.duration[language]}</span>
                 </div>
 
                 <ul className="space-y-2 mb-6">
-                  {pkg.features.map((feature: string, i: number) => (
+                  {pkg.features[language].map((feature: string, i: number) => (
                     <li key={i} className="flex items-start text-sm text-gray-600">
                       <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                       {feature}
@@ -612,14 +1316,14 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage }: P
 
                 {pkg.note && (
                   <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg mb-4">
-                    Note: {pkg.note}
+                    {t('note')}: {pkg.note[language]}
                   </p>
                 )}
 
                 <button
                   className={`w-full bg-gradient-to-r ${category.color} text-white py-3 rounded-lg font-medium relative overflow-hidden`}
                 >
-                  <span className="relative z-10">Select This Package</span>
+                  <span className="relative z-10">{t('selectThisPackage')}</span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     animate={{ x: ["-100%", "100%"] }}
@@ -636,6 +1340,7 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage }: P
 }
 
 export default function BookingPage() {
+  const [language, setLanguage] = useState<Language>('en');
   const [step, setStep] = useState(1)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [selectedPhotoPackages, setSelectedPhotoPackages] = useState<SelectedPhotoPackage[]>([])
@@ -662,6 +1367,17 @@ export default function BookingPage() {
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateBookings, setDateBookings] = useState<any>(null)
+
+  // Translation function
+  const t = (key: string): string => {
+    return translations[key]?.[language] || key;
+  };
+
+  // Get services with translations
+  const servicesList = services(t);
+  const additionalServicesList = additionalServices(t, language);
+  const allServices = [...servicesList, ...additionalServicesList];
+  const categories = photographyCategories(t);
 
   // Generate calendar days for current month
   useEffect(() => {
@@ -748,10 +1464,10 @@ export default function BookingPage() {
       categoryId,
       categoryName,
       packageIndex,
-      packageName: pkg.name,
+      packageName: pkg.name[language],
       price: pkg.price,
-      duration: pkg.duration,
-      features: pkg.features
+      duration: pkg.duration[language],
+      features: pkg.features[language]
     }
 
     // Check if we already have a package from this category
@@ -839,7 +1555,7 @@ export default function BookingPage() {
   const totalPrice = calculateTotalPrice()
 
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const weekDays = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')]
 
   // Animation variants
   const containerVariants = {
@@ -858,7 +1574,7 @@ export default function BookingPage() {
       y: 0,
       opacity: 1,
       transition: {
-        animation: "spring",
+        type: "spring" as const,
         stiffness: 100
       }
     }
@@ -880,12 +1596,17 @@ export default function BookingPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+      {/* Language Toggle */}
+      <LanguageToggle language={language} setLanguage={setLanguage} />
+
       {/* Category Selection Modal */}
       <CategorySelectionModal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
-        categories={photographyCategories}
+        categories={categories}
         onSelectCategory={handleSelectCategory}
+        t={t}
+        language={language}
       />
 
       {/* Package Selection Modal */}
@@ -894,6 +1615,8 @@ export default function BookingPage() {
         onClose={() => setIsPackageModalOpen(false)}
         category={selectedCategory}
         onSelectPackage={handleSelectPackage}
+        t={t}
+        language={language}
       />
 
       {/* Floating Particles Background */}
@@ -947,10 +1670,10 @@ export default function BookingPage() {
             animate={{ textShadow: ['0 0 20px rgba(255,255,255,0.5)', '0 0 40px rgba(255,255,255,0.8)', '0 0 20px rgba(255,255,255,0.5)'] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            Book Your Services
+            {t('bookYourServices')}
           </motion.h1>
           <p className="text-2xl md:text-3xl opacity-90 font-light tracking-wide">
-            with <span className="font-normal bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Nuhaa Lens</span>
+            {t('with')} <span className="font-normal bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Nuhaa Lens</span>
           </p>
           <motion.div 
             className="w-24 h-1 bg-gradient-to-r from-green-400 to-emerald-400 mx-auto mt-6"
@@ -980,13 +1703,13 @@ export default function BookingPage() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
-              <span>Home</span>
+              <span>{t('home')}</span>
             </motion.button>
           </Link>
           <ChevronRight className="w-4 h-4 text-gray-400" />
           <span className="text-green-700 font-semibold flex items-center gap-1">
             <CalendarIcon className="w-4 h-4" />
-            Booking
+            {t('booking')}
           </span>
         </div>
       </div>
@@ -1000,7 +1723,7 @@ export default function BookingPage() {
           transition={{ delay: 0.4 }}
           className="flex justify-between mb-12 max-w-2xl mx-auto"
         >
-          {['Select Services', 'Your Details', 'Confirmation'].map((label, i) => (
+          {[t('selectServices'), t('yourDetails'), t('confirmation')].map((label, i) => (
             <motion.div 
               key={i} 
               className="flex items-center"
@@ -1060,9 +1783,9 @@ export default function BookingPage() {
             >
               <motion.div variants={itemVariants} className="text-center mb-10">
                 <h2 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
-                  Select Your Services
+                  {t('selectYourServices')}
                 </h2>
-                <p className="text-gray-600 text-lg font-medium">Choose one or multiple services for your event</p>
+                <p className="text-gray-600 text-lg font-medium">{t('chooseServicesDesc')}</p>
               </motion.div>
               
               <motion.div 
@@ -1186,7 +1909,7 @@ export default function BookingPage() {
                               }`}
                             >
                               <Package className="w-4 h-4" />
-                              {photoPackages.length > 0 ? 'Add Another Package' : 'Select Photography Package'}
+                              {photoPackages.length > 0 ? t('addAnotherPackage') : t('selectPhotographyPackage')}
                             </button>
                             
                             {/* List selected packages with remove buttons */}
@@ -1238,103 +1961,103 @@ export default function BookingPage() {
                 })}
               </motion.div>
 
-             {/* Selected Services Summary */}
-<AnimatePresence>
-  {(selectedServices.length > 0 || selectedPhotoPackages.length > 0) && (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-xl mb-8 border border-green-400"
-    >
-      <div className="flex justify-between items-start">
-        <div className="flex-1">
-          <span className="text-black font-bold block mb-3 text-lg"> {/* Changed from text-gray-800 */}
-            Selected Services: {selectedServices.length + selectedPhotoPackages.length}
-          </span>
-          
-          {/* List regular services */}
-          <div className="space-y-2 mb-3">
-            {selectedServices
-              .filter(id => id !== 'photography')
-              .map((id, i) => {
-                const service = allServices.find(s => s.id === id)
-                const Icon = service?.icon
-                const color = service?.color || 'from-green-500 to-emerald-500'
-                return (
+              {/* Selected Services Summary */}
+              <AnimatePresence>
+                {(selectedServices.length > 0 || selectedPhotoPackages.length > 0) && (
                   <motion.div
-                    key={id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="flex items-center gap-2 text-sm"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-xl mb-8 border border-green-400"
                   >
-                    <div className={`w-6 h-6 bg-gradient-to-br ${color} rounded-full flex items-center justify-center flex-shrink-0`}>
-                      {Icon && <Icon className="w-3 h-3 text-white" />}
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <span className="text-black font-bold block mb-3 text-lg">
+                          {t('services')}: {selectedServices.length + selectedPhotoPackages.length}
+                        </span>
+                        
+                        {/* List regular services */}
+                        <div className="space-y-2 mb-3">
+                          {selectedServices
+                            .filter(id => id !== 'photography')
+                            .map((id, i) => {
+                              const service = allServices.find(s => s.id === id)
+                              const Icon = service?.icon
+                              const color = service?.color || 'from-green-500 to-emerald-500'
+                              return (
+                                <motion.div
+                                  key={id}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: i * 0.05 }}
+                                  className="flex items-center gap-2 text-sm"
+                                >
+                                  <div className={`w-6 h-6 bg-gradient-to-br ${color} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                    {Icon && <Icon className="w-3 h-3 text-white" />}
+                                  </div>
+                                  <span className="text-black font-medium">{service?.name}</span>
+                                </motion.div>
+                              )
+                            })}
+                        </div>
+                        
+                        {/* List photography packages */}
+                        {selectedPhotoPackages.length > 0 && (
+                          <div className="space-y-2">
+                            <span className="text-sm font-bold text-black">{t('photographyPackages')}:</span>
+                            {selectedPhotoPackages.map((pkg, index) => {
+                              const category = categories.find(c => c.id === pkg.categoryId)
+                              return (
+                                <motion.div
+                                  key={`${pkg.categoryId}-${index}`}
+                                  initial={{ opacity: 0, x: -20 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: index * 0.05 }}
+                                  className="flex items-center gap-2 text-sm ml-4"
+                                >
+                                  <div className={`w-4 h-4 bg-gradient-to-br ${category?.color || 'from-green-500 to-emerald-500'} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                    <Camera className="w-2 h-2 text-white" />
+                                  </div>
+                                  <span className="text-black">
+                                    {pkg.categoryName}: {pkg.packageName} ({pkg.price})
+                                  </span>
+                                </motion.div>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <motion.div 
+                        className="text-right ml-4 flex-shrink-0"
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <span className="text-black font-medium text-sm">{t('total')}</span>
+                        <span className="text-4xl font-bold text-green-700 block">RM {totalPrice}</span>
+                      </motion.div>
                     </div>
-                    <span className="text-black font-medium">{service?.name}</span> {/* Changed from text-gray-700 */}
                   </motion.div>
-                )
-              })}
-          </div>
-          
-          {/* List photography packages */}
-          {selectedPhotoPackages.length > 0 && (
-            <div className="space-y-2">
-              <span className="text-sm font-bold text-black">Photography Packages:</span> {/* Changed from text-gray-700 */}
-              {selectedPhotoPackages.map((pkg, index) => {
-                const category = photographyCategories.find(c => c.id === pkg.categoryId)
-                return (
-                  <motion.div
-                    key={`${pkg.categoryId}-${index}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="flex items-center gap-2 text-sm ml-4"
-                  >
-                    <div className={`w-4 h-4 bg-gradient-to-br ${category?.color || 'from-green-500 to-emerald-500'} rounded-full flex items-center justify-center flex-shrink-0`}>
-                      <Camera className="w-2 h-2 text-white" />
-                    </div>
-                    <span className="text-black"> {/* Changed from text-gray-700 */}
-                      {pkg.categoryName}: {pkg.packageName} ({pkg.price})
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          )}
-        </div>
-        
-        <motion.div 
-          className="text-right ml-4 flex-shrink-0"
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <span className="text-black font-medium text-sm">Total</span> {/* Changed from text-gray-600 */}
-          <span className="text-4xl font-bold text-green-700 block">RM {totalPrice}</span>
-        </motion.div>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+                )}
+              </AnimatePresence>
 
               <div className="flex gap-4">
-               <Link href="/" className="flex-1">
-  <motion.button
-    whileHover={{ scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    type="button"
-    className="w-full border-2 border-gray-600 text-black font-bold py-4 rounded-lg text-lg tracking-wide hover:bg-gray-100 transition-all duration-300 relative overflow-hidden group"
-  >
-    <span className="relative z-10">Back to Home</span>
-    <motion.div 
-      className="absolute inset-0 bg-gray-200"
-      initial={{ x: '-100%' }}
-      whileHover={{ x: 0 }}
-      transition={{ duration: 0.3 }}
-    />
-  </motion.button>
-</Link>
+                <Link href="/" className="flex-1">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="button"
+                    className="w-full border-2 border-gray-600 text-black font-bold py-4 rounded-lg text-lg tracking-wide hover:bg-gray-100 transition-all duration-300 relative overflow-hidden group"
+                  >
+                    <span className="relative z-10">{t('backToHome')}</span>
+                    <motion.div 
+                      className="absolute inset-0 bg-gray-200"
+                      initial={{ x: '-100%' }}
+                      whileHover={{ x: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.button>
+                </Link>
                 <motion.button
                   whileHover={selectedServices.length > 0 ? { scale: 1.02 } : {}}
                   whileTap={selectedServices.length > 0 ? { scale: 0.98 } : {}}
@@ -1347,7 +2070,7 @@ export default function BookingPage() {
                   }`}
                 >
                   <span className="relative z-10 flex items-center justify-center">
-                    Continue to Details
+                    {t('continueToDetails')}
                     <motion.div
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -1382,7 +2105,7 @@ export default function BookingPage() {
                 variants={itemVariants}
                 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent text-center mb-8"
               >
-                Your Information
+                {t('yourInformation')}
               </motion.h2>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1394,14 +2117,14 @@ export default function BookingPage() {
                   >
                     <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
                       <CalendarIcon className="w-5 h-5 mr-2 text-green-600" />
-                      Select Event Date
+                      {t('selectEventDate')}
                       {formData.eventDate && (
                         <motion.span
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           className="ml-2 text-xs bg-green-100 text-green-700 font-bold px-2 py-1 rounded-full"
                         >
-                          Selected
+                          {t('selected')}
                         </motion.span>
                       )}
                     </h3>
@@ -1500,7 +2223,7 @@ export default function BookingPage() {
                           whileHover={{ scale: 1.05 }}
                         >
                           <div className="w-3 h-3 bg-green-100 rounded-full mr-2 border border-green-600" />
-                          <span className="text-gray-600 font-semibold">Available</span>
+                          <span className="text-gray-600 font-semibold">{t('available')}</span>
                         </motion.div>
                         <motion.div 
                           className="flex items-center"
@@ -1511,14 +2234,14 @@ export default function BookingPage() {
                             animate={{ scale: [1, 1.2, 1] }}
                             transition={{ duration: 1.5, repeat: Infinity }}
                           />
-                          <span className="text-gray-600 font-semibold">Partially Booked</span>
+                          <span className="text-gray-600 font-semibold">{t('partiallyBooked')}</span>
                         </motion.div>
                         <motion.div 
                           className="flex items-center"
                           whileHover={{ scale: 1.05 }}
                         >
                           <div className="w-3 h-3 bg-red-100 rounded-full mr-2 border border-red-600" />
-                          <span className="text-gray-600 font-semibold">Fully Booked</span>
+                          <span className="text-gray-600 font-semibold">{t('fullyBooked')}</span>
                         </motion.div>
                       </div>
                     </div>
@@ -1535,13 +2258,13 @@ export default function BookingPage() {
                       >
                         <h4 className="text-gray-800 font-bold mb-2 flex items-center">
                           <PartyPopper className="w-4 h-4 mr-2 text-yellow-600" />
-                          Selected Date: {selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                          {t('selectedDate')}: {selectedDate.toLocaleDateString(language === 'en' ? 'en-US' : 'ms-MY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                         </h4>
                         {dateBookings.status === 'partially-booked' && (
                           <>
-                            <p className="text-yellow-700 font-bold text-sm mb-2">This date has some services booked:</p>
+                            <p className="text-yellow-700 font-bold text-sm mb-2">{t('thisDateHas')}:</p>
                             <div className="space-y-1">
-                              {services
+                              {servicesList
                                 .filter(s => dateBookings.services.includes(s.id))
                                 .map((service, i) => (
                                   <motion.div 
@@ -1571,7 +2294,7 @@ export default function BookingPage() {
                 <motion.div variants={itemVariants} className="space-y-6">
                   {/* Name */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Full Name *</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('fullName')} *</label>
                     <div className="relative group">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <input
@@ -1581,7 +2304,7 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="Enter your full name"
+                        placeholder={t('enterFullName')}
                       />
                       <motion.div 
                         className="absolute inset-0 rounded-lg pointer-events-none"
@@ -1592,7 +2315,7 @@ export default function BookingPage() {
 
                   {/* Email */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Email Address *</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('emailAddress')} *</label>
                     <div className="relative group">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <input
@@ -1602,14 +2325,14 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="your@email.com"
+                        placeholder={t('emailPlaceholder')}
                       />
                     </div>
                   </motion.div>
 
                   {/* Phone */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Phone Number *</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('phoneNumber')} *</label>
                     <div className="relative group">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <input
@@ -1619,14 +2342,14 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="012-3456789"
+                        placeholder={t('phonePlaceholder')}
                       />
                     </div>
                   </motion.div>
 
                   {/* Instagram */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Instagram (optional)</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('instagramOptional')}</label>
                     <div className="relative group">
                       <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <input
@@ -1635,14 +2358,14 @@ export default function BookingPage() {
                         value={formData.instagram}
                         onChange={handleInputChange}
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="@yourusername"
+                        placeholder={t('instagramPlaceholder')}
                       />
                     </div>
                   </motion.div>
 
                   {/* Event Location */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Event Location *</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('eventLocation')} *</label>
                     <div className="relative group">
                       <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <input
@@ -1652,14 +2375,14 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="City, Venue"
+                        placeholder={t('locationPlaceholder')}
                       />
                     </div>
                   </motion.div>
 
                   {/* Event Type */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Event Type *</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('eventType')} *</label>
                     <select
                       name="eventType"
                       value={formData.eventType}
@@ -1667,20 +2390,20 @@ export default function BookingPage() {
                       required
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium transition-all"
                     >
-                      <option value="wedding">Wedding</option>
-                      <option value="engagement">Engagement</option>
-                      <option value="corporate">Corporate Event</option>
-                      <option value="birthday">Birthday Party</option>
-                      <option value="maternity">Maternity Shoot</option>
-                      <option value="aqiqah">Aqiqah</option>
-                      <option value="convocation">Convocation/Graduation</option>
-                      <option value="other">Other</option>
+                      <option value="wedding">{t('wedding')}</option>
+                      <option value="engagement">{t('engagement')}</option>
+                      <option value="corporate">{t('corporate')}</option>
+                      <option value="birthday">{t('birthday')}</option>
+                      <option value="maternity">{t('maternity')}</option>
+                      <option value="aqiqah">{t('aqiqah')}</option>
+                      <option value="convocation">{t('convocation')}</option>
+                      <option value="other">{t('other')}</option>
                     </select>
                   </motion.div>
 
                   {/* Message */}
                   <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">Special Requests or Notes</label>
+                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('specialRequests')}</label>
                     <div className="relative group">
                       <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
                       <textarea
@@ -1689,7 +2412,7 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         rows={4}
                         className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder="Tell us about your vision or any special requirements..."
+                        placeholder={t('tellUsAbout')}
                       />
                     </div>
                   </motion.div>
@@ -1707,7 +2430,7 @@ export default function BookingPage() {
                   onClick={() => setStep(1)}
                   className="flex-1 border-2 border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition-all relative overflow-hidden group"
                 >
-                  <span className="relative z-10">Back</span>
+                  <span className="relative z-10">{t('back')}</span>
                   <motion.div 
                     className="absolute inset-0 bg-gray-200"
                     initial={{ x: '-100%' }}
@@ -1727,7 +2450,7 @@ export default function BookingPage() {
                   }`}
                 >
                   <span className="relative z-10 flex items-center justify-center">
-                    Submit Booking
+                    {t('submitBooking')}
                     {formData.eventDate && (
                       <motion.div
                         animate={{ rotate: [0, 360] }}
@@ -1780,7 +2503,7 @@ export default function BookingPage() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                Booking Received!
+                {t('bookingReceived')}
               </motion.h2>
               
               <motion.p 
@@ -1789,7 +2512,7 @@ export default function BookingPage() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
               >
-                Thank you for choosing Nuhaa Lens. We'll contact you within 24 hours to confirm your booking and discuss the details.
+                {t('thankYouMessage')}
               </motion.p>
               
               <motion.div 
@@ -1798,10 +2521,10 @@ export default function BookingPage() {
                 transition={{ delay: 0.4 }}
                 className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl mb-10 max-w-md mx-auto border border-green-400 shadow-lg"
               >
-                <h3 className="font-bold text-2xl mb-6 text-gray-800">Booking Summary</h3>
+                <h3 className="font-bold text-2xl mb-6 text-gray-800">{t('bookingSummary')}</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center pb-2 border-b border-green-400">
-                    <span className="text-gray-600 font-bold">Services:</span>
+                    <span className="text-gray-600 font-bold">{t('services')}:</span>
                     <span className="text-gray-800 font-extrabold">{selectedServices.length + selectedPhotoPackages.length}</span>
                   </div>
                   
@@ -1823,7 +2546,7 @@ export default function BookingPage() {
                     {/* Photography packages */}
                     {selectedPhotoPackages.length > 0 && (
                       <div className="mt-2">
-                        <span className="text-sm font-bold text-gray-600 block mb-2">Photography Packages:</span>
+                        <span className="text-sm font-bold text-gray-600 block mb-2">{t('photographyPackages')}:</span>
                         {selectedPhotoPackages.map((pkg, i) => (
                           <div key={`pkg-${i}`} className="flex justify-between text-sm ml-2">
                             <span className="text-gray-600">{pkg.categoryName} - {pkg.packageName}</span>
@@ -1835,7 +2558,7 @@ export default function BookingPage() {
                   </div>
                   
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600 font-bold">Total:</span>
+                    <span className="text-gray-600 font-bold">{t('total')}:</span>
                     <motion.span 
                       className="text-3xl text-green-700 font-extrabold"
                       animate={{ scale: [1, 1.05, 1] }}
@@ -1846,9 +2569,9 @@ export default function BookingPage() {
                   </div>
                   
                   <div className="flex justify-between items-center pt-2 border-t border-green-400">
-                    <span className="text-gray-600 font-bold">Event Date:</span>
+                    <span className="text-gray-600 font-bold">{t('eventDate')}:</span>
                     <span className="text-gray-800 font-extrabold">
-                      {new Date(formData.eventDate).toLocaleDateString('en-US', { 
+                      {new Date(formData.eventDate).toLocaleDateString(language === 'en' ? 'en-US' : 'ms-MY', { 
                         weekday: 'short', 
                         year: 'numeric', 
                         month: 'short', 
@@ -1871,7 +2594,7 @@ export default function BookingPage() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all text-lg font-bold tracking-wide relative overflow-hidden shadow-lg shadow-green-500/30"
                   >
-                    <span className="relative z-10">Return to Home</span>
+                    <span className="relative z-10">{t('returnToHome')}</span>
                     <motion.div 
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                       animate={{ x: ['-100%', '100%'] }}
@@ -1885,7 +2608,7 @@ export default function BookingPage() {
                     whileTap={{ scale: 0.95 }}
                     className="border-2 border-green-500 text-green-600 font-bold px-8 py-4 rounded-lg hover:bg-green-50 transition-all text-lg tracking-wide"
                   >
-                    View Portfolio
+                    {t('viewPortfolio')}
                   </motion.button>
                 </Link>
               </motion.div>
@@ -1908,36 +2631,36 @@ export default function BookingPage() {
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-gray-300">Quick Links</h4>
+              <h4 className="font-semibold mb-4 text-gray-300">{t('quickLinks')}</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link href="/" className="hover:text-green-400 transition">
-                    Home
+                    {t('home')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/portfolio" className="hover:text-green-400 transition">
-                    Portfolio
+                    {t('portfolio')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/" className="hover:text-green-400 transition">
-                    Services
+                    {t('services')}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-gray-300">Services</h4>
+              <h4 className="font-semibold mb-4 text-gray-300">{t('services')}</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Photography</li>
-                <li>Videography</li>
-                <li>Emcee</li>
-                <li>Bride Assistant</li>
+                <li>{t('photography')}</li>
+                <li>{t('videography')}</li>
+                <li>{t('emcee')}</li>
+                <li>{t('brideAssistant')}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-gray-300">Follow Us</h4>
+              <h4 className="font-semibold mb-4 text-gray-300">{t('followUs')}</h4>
               <div className="flex gap-4">
                 <motion.a
                   href={socialLinks.instagram}
@@ -1970,7 +2693,7 @@ export default function BookingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 Nuhaa Lens. All rights reserved.</p>
+            <p>&copy; 2026 Nuhaa Lens. {t('rightsReserved')}.</p>
           </div>
         </div>
       </footer>
@@ -1987,7 +2710,6 @@ export default function BookingPage() {
       >
         <ChevronDown className="w-5 h-5 rotate-180" />
       </motion.button>
-
     </main>
   )
 }
