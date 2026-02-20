@@ -36,7 +36,155 @@ import {
   ChevronRight as ChevronRightIcon,
   FolderOpen,
   Image as ImageIcon,
+  CheckCircle,
 } from "lucide-react";
+
+// Language context and translations
+type Language = 'en' | 'bm';
+
+interface Translations {
+  [key: string]: {
+    [key: string]: string;
+  };
+}
+
+const translations: Translations = {
+  // Navigation
+  'portfolio': {
+    en: 'Our Portfolio',
+    bm: 'Portfolio Kami'
+  },
+  'portfolioSubtitle': {
+    en: 'Browse our work by service, client, and gallery',
+    bm: 'Lihat hasil kerja kami mengikut perkhidmatan, pelanggan, dan galeri'
+  },
+  'home': {
+    en: 'Home',
+    bm: 'Laman Utama'
+  },
+  'services': {
+    en: 'Services',
+    bm: 'Perkhidmatan'
+  },
+  'clients': {
+    en: 'Clients',
+    bm: 'Pelanggan'
+  },
+  'gallery': {
+    en: 'Gallery',
+    bm: 'Galeri'
+  },
+  'viewPortfolio': {
+    en: 'View Portfolio',
+    bm: 'Lihat Portfolio'
+  },
+  'photos': {
+    en: 'photos',
+    bm: 'gambar'
+  },
+  'featured': {
+    en: 'Featured',
+    bm: 'Pilihan'
+  },
+  'backToServices': {
+    en: 'Back to Services',
+    bm: 'Kembali ke Perkhidmatan'
+  },
+  'backToClients': {
+    en: 'Back to Clients',
+    bm: 'Kembali ke Pelanggan'
+  },
+  'completedProjects': {
+    en: 'completed projects',
+    bm: 'projek siap'
+  },
+  
+  // Service Categories
+  'weddingPhotography': {
+    en: 'Wedding Photography',
+    bm: 'Fotografi Perkahwinan'
+  },
+  'weddingDesc': {
+    en: 'Beautiful wedding moments captured forever',
+    bm: 'Detik perkahwinan indah dirakam selama-lamanya'
+  },
+  'engagementPhotography': {
+    en: 'Engagement Photography',
+    bm: 'Fotografi Pertunangan'
+  },
+  'engagementDesc': {
+    en: 'Romantic engagement sessions',
+    bm: 'Sesi pertunangan romantis'
+  },
+  'birthdayPhotography': {
+    en: 'Birthday Photography',
+    bm: 'Fotografi Hari Jadi'
+  },
+  'birthdayDesc': {
+    en: 'Birthday celebration shoot',
+    bm: 'Penggambaran sambutan hari jadi'
+  },
+  'emceeServices': {
+    en: 'Emcee Services',
+    bm: 'Perkhidmatan Pengacara'
+  },
+  'emceeDesc': {
+    en: 'Professional event hosting',
+    bm: 'Pengacaraan acara profesional'
+  },
+  'brideAssistant': {
+    en: 'Bride Assistant',
+    bm: 'Pembantu Pengantin'
+  },
+  'brideAssistantDesc': {
+    en: 'Dedicated support for brides',
+    bm: 'Sokongan khusus untuk pengantin perempuan'
+  },
+  'floorManager': {
+    en: 'Floor Manager',
+    bm: 'Pengurus Lantai'
+  },
+  'floorManagerDesc': {
+    en: 'Professional event coordination',
+    bm: 'Koordinasi acara profesional'
+  },
+
+  // Client details
+  'weddingDate': {
+    en: 'Wedding Date',
+    bm: 'Tarikh Perkahwinan'
+  },
+  'location': {
+    en: 'Location',
+    bm: 'Lokasi'
+  },
+  'description': {
+    en: 'Description',
+    bm: 'Penerangan'
+  },
+  
+  // Footer
+  'quickLinks': {
+    en: 'Quick Links',
+    bm: 'Pautan Pantas'
+  },
+  'bookNow': {
+    en: 'Book Now',
+    bm: 'Tempah Sekarang'
+  },
+  'followUs': {
+    en: 'Follow Us',
+    bm: 'Ikuti Kami'
+  },
+  'rightsReserved': {
+    en: 'All rights reserved',
+    bm: 'Hak cipta terpelihara'
+  },
+  'creatingMemories': {
+    en: 'Creating timeless memories through professional wedding and event services.',
+    bm: 'Mencipta kenangan abadi melalui perkhidmatan perkahwinan dan acara profesional.'
+  },
+};
 
 // Social media links
 const socialLinks = {
@@ -68,21 +216,27 @@ interface ClientPortfolio {
 
 interface ServiceCategory {
   id: string;
-  name: string;
+  name: { en: string; bm: string };
   icon: React.ReactNode;
-  description: string;
+  description: { en: string; bm: string };
   color: string;
   clientCount: number;
   clients: ClientPortfolio[];
 }
 
-// Portfolio Data Structure
+// Portfolio Data Structure with bilingual names
 const portfolioData: ServiceCategory[] = [
   {
     id: "wedding",
-    name: "Wedding Photography",
+    name: {
+      en: "Wedding Photography",
+      bm: "Fotografi Perkahwinan"
+    },
     icon: <HeartHandshake className="w-8 h-8" />,
-    description: "Beautiful wedding moments captured forever",
+    description: {
+      en: "Beautiful wedding moments captured forever",
+      bm: "Detik perkahwinan indah dirakam selama-lamanya"
+    },
     color: "from-pink-500 to-rose-500",
     clientCount: 8,
     clients: [
@@ -198,9 +352,15 @@ const portfolioData: ServiceCategory[] = [
   },
   {
     id: "engagement",
-    name: "Engagement Photography",
+    name: {
+      en: "Engagement Photography",
+      bm: "Fotografi Pertunangan"
+    },
     icon: <Heart className="w-8 h-8" />,
-    description: "Romantic engagement sessions",
+    description: {
+      en: "Romantic engagement sessions",
+      bm: "Sesi pertunangan romantis"
+    },
     color: "from-purple-500 to-pink-500",
     clientCount: 5,
     clients: [
@@ -260,11 +420,17 @@ const portfolioData: ServiceCategory[] = [
       }
     ]
   },
-   {
+  {
     id: "birthday",
-    name: "Birthday Photography",
+    name: {
+      en: "Birthday Photography",
+      bm: "Fotografi Hari Jadi"
+    },
     icon: <Cake className="w-8 h-8" />,
-    description: "Birthday celebration shoot",
+    description: {
+      en: "Birthday celebration shoot",
+      bm: "Penggambaran sambutan hari jadi"
+    },
     color: "from-red-500 to-orange-500",
     clientCount: 5,
     clients: [
@@ -297,38 +463,20 @@ const portfolioData: ServiceCategory[] = [
         ],
         tags: ["Birthday", "Outdoor", "Couple"],
         featured: true,
-      },
-      {
-        id: "engagement-aisyah-azhar",
-        clientName: "Aisyah & Azhar Engagement",
-        weddingDate: "December 2025",
-        location: "Studio KL",
-        description: "Studio engagement session with modern themes.",
-        coverImage: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3",
-        images: [
-          {
-            id: "aisyah-1",
-            url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3",
-            caption: "Studio Session",
-            category: "Studio"
-          },
-          {
-            id: "aisyah-2",
-            url: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3",
-            caption: "Couple Portrait",
-            category: "Portrait"
-          }
-        ],
-        tags: ["Engagement", "Studio", "Modern"],
-        featured: false,
       }
     ]
   },
   {
     id: "emcee",
-    name: "Emcee Services",
+    name: {
+      en: "Emcee Services",
+      bm: "Perkhidmatan Pengacara"
+    },
     icon: <Mic className="w-8 h-8" />,
-    description: "Professional event hosting",
+    description: {
+      en: "Professional event hosting",
+      bm: "Pengacaraan acara profesional"
+    },
     color: "from-yellow-500 to-orange-500",
     clientCount: 6,
     clients: [
@@ -390,9 +538,15 @@ const portfolioData: ServiceCategory[] = [
   },
   {
     id: "bride-assistant",
-    name: "Bride Assistant",
+    name: {
+      en: "Bride Assistant",
+      bm: "Pembantu Pengantin"
+    },
     icon: <Heart className="w-8 h-8" />,
-    description: "Dedicated support for brides",
+    description: {
+      en: "Dedicated support for brides",
+      bm: "Sokongan khusus untuk pengantin perempuan"
+    },
     color: "from-red-500 to-pink-500",
     clientCount: 4,
     clients: [
@@ -424,9 +578,15 @@ const portfolioData: ServiceCategory[] = [
   },
   {
     id: "floor-manager",
-    name: "Floor Manager",
+    name: {
+      en: "Floor Manager",
+      bm: "Pengurus Lantai"
+    },
     icon: <Users className="w-8 h-8" />,
-    description: "Professional event coordination",
+    description: {
+      en: "Professional event coordination",
+      bm: "Koordinasi acara profesional"
+    },
     color: "from-green-500 to-emerald-500",
     clientCount: 3,
     clients: [
@@ -458,11 +618,94 @@ const portfolioData: ServiceCategory[] = [
   }
 ];
 
+// Floating particle for background
+const FloatingParticle = ({ delay = 0, size = 4, left = "0%", top = "0%" }) => (
+  <motion.div
+    className="absolute rounded-full bg-white/20"
+    style={{ left, top, width: size, height: size }}
+    animate={{
+      y: [0, -30, 0],
+      x: [0, 15, 0],
+      opacity: [0.2, 0.5, 0.2],
+    }}
+    transition={{
+      duration: 8,
+      delay,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  />
+);
+
+// Language Toggle Component
+function LanguageToggle({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+  return (
+    <motion.div
+      className="fixed z-50"
+      style={{ 
+        top: 'calc(2vh)', 
+        right: 'calc(2vw)' 
+      }}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.5 }}
+    >
+      <motion.div
+        className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <motion.button
+          onClick={() => setLanguage('en')}
+          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+            language === 'en' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">EN</span>
+          {language === 'en' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+
+        <motion.button
+          onClick={() => setLanguage('bm')}
+          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+            language === 'bm' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">BM</span>
+          {language === 'bm' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // Service Categories Grid Component
 function ServiceCategoriesGrid({ 
-  onSelectCategory 
+  onSelectCategory,
+  language,
+  t
 }: { 
-  onSelectCategory: (category: ServiceCategory) => void 
+  onSelectCategory: (category: ServiceCategory) => void;
+  language: Language;
+  t: (key: string) => string;
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -484,16 +727,16 @@ function ServiceCategoriesGrid({
                   {category.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold">{category.name}</h3>
-                  <p className="text-white/80 text-sm">{category.clientCount} clients</p>
+                  <h3 className="text-xl font-semibold">{category.name[language]}</h3>
+                  <p className="text-white/80 text-sm">{category.clientCount} {t('clients').toLowerCase()}</p>
                 </div>
               </div>
               
-              <p className="text-white/90 text-sm mb-4">{category.description}</p>
+              <p className="text-white/90 text-sm mb-4">{category.description[language]}</p>
               
               <div className="flex items-center justify-between">
                 <span className="text-sm bg-white/20 px-3 py-1 rounded-full">
-                  View Portfolio
+                  {t('viewPortfolio')}
                 </span>
                 <ChevronRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -513,11 +756,15 @@ function ServiceCategoriesGrid({
 function ClientList({ 
   category, 
   onSelectClient,
-  onBack 
+  onBack,
+  language,
+  t
 }: { 
   category: ServiceCategory;
   onSelectClient: (client: ClientPortfolio) => void;
   onBack: () => void;
+  language: Language;
+  t: (key: string) => string;
 }) {
   return (
     <div className="space-y-6">
@@ -532,12 +779,12 @@ function ClientList({
             {category.icon}
           </div>
           <div>
-            <h2 className="text-3xl font-bold">{category.name}</h2>
-            <p className="text-white/90">{category.description}</p>
+            <h2 className="text-3xl font-bold">{category.name[language]}</h2>
+            <p className="text-white/90">{category.description[language]}</p>
           </div>
         </div>
         <p className="text-white/80 text-sm">
-          {category.clientCount} completed projects
+          {category.clientCount} {t('completedProjects')}
         </p>
       </motion.div>
 
@@ -562,7 +809,7 @@ function ClientList({
                 {client.featured && (
                   <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
                     <Star className="w-3 h-3 fill-current" />
-                    Featured
+                    {t('featured')}
                   </div>
                 )}
               </div>
@@ -579,10 +826,10 @@ function ClientList({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-green-600 font-medium">
-                    {client.images.length} photos
+                    {client.images.length} {t('photos')}
                   </span>
                   <span className="text-sm text-gray-500 flex items-center gap-1">
-                    View Gallery
+                    {t('viewPortfolio')}
                     <ChevronRightIcon className="w-4 h-4" />
                   </span>
                 </div>
@@ -598,10 +845,14 @@ function ClientList({
 // Image Gallery Component
 function ImageGallery({ 
   client, 
-  onBack 
+  onBack,
+  language,
+  t
 }: { 
   client: ClientPortfolio;
   onBack: () => void;
+  language: Language;
+  t: (key: string) => string;
 }) {
   const [selectedImage, setSelectedImage] = useState<PortfolioImage | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -696,7 +947,7 @@ function ImageGallery({
         className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
       >
         <ChevronLeft className="w-5 h-5" />
-        Back to Clients
+        {t('backToClients')}
       </motion.button>
 
       {/* Client header */}
@@ -726,7 +977,7 @@ function ImageGallery({
               </div>
               <div className="flex items-center gap-1">
                 <ImageIcon className="w-4 h-4" />
-                <span>{client.images.length} photos</span>
+                <span>{client.images.length} {t('photos')}</span>
               </div>
             </div>
             {client.description && (
@@ -770,6 +1021,7 @@ function ImageGallery({
 }
 
 export default function PortfolioPage() {
+  const [language, setLanguage] = useState<Language>('en');
   const [currentView, setCurrentView] = useState<"services" | "clients" | "gallery">("services");
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory | null>(null);
   const [selectedClient, setSelectedClient] = useState<ClientPortfolio | null>(null);
@@ -782,6 +1034,11 @@ export default function PortfolioPage() {
 
   const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+
+  // Translation function
+  const t = (key: string): string => {
+    return translations[key]?.[language] || key;
+  };
 
   const handleSelectCategory = (category: ServiceCategory) => {
     setSelectedCategory(category);
@@ -809,7 +1066,22 @@ export default function PortfolioPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+      {/* Language Toggle */}
+      <LanguageToggle language={language} setLanguage={setLanguage} />
+
+      {/* Floating Particles */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <FloatingParticle delay={0} size={6} left="5%" top="10%" />
+        <FloatingParticle delay={2} size={8} left="15%" top="30%" />
+        <FloatingParticle delay={4} size={4} left="25%" top="60%" />
+        <FloatingParticle delay={1} size={10} left="75%" top="20%" />
+        <FloatingParticle delay={3} size={5} left="85%" top="50%" />
+        <FloatingParticle delay={5} size={7} left="45%" top="70%" />
+        <FloatingParticle delay={2.5} size={6} left="65%" top="80%" />
+        <FloatingParticle delay={4.5} size={8} left="90%" top="15%" />
+      </div>
+
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -858,7 +1130,7 @@ export default function PortfolioPage() {
             }}
             transition={{ duration: 3, repeat: Infinity }}
           >
-            Our Portfolio
+            {t('portfolio')}
           </motion.h1>
 
           <motion.div
@@ -873,86 +1145,94 @@ export default function PortfolioPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            Browse our work by service, client, and gallery
+            {t('portfolioSubtitle')}
           </motion.p>
         </motion.div>
       </section>
 
       {/* Main Content */}
-<section className="py-12 px-4 max-w-7xl mx-auto">
-  {/* Breadcrumb with Home */}
-  <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
-    <Link href="/">
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-1 text-gray-500 hover:text-green-600 transition-colors"
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-        <span>Home</span>
-      </motion.button>
-    </Link>
+      <section className="py-12 px-4 max-w-7xl mx-auto relative z-10">
+        {/* Breadcrumb with Home */}
+        <div className="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <Link href="/">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1 text-gray-500 hover:text-green-600 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span>{t('home')}</span>
+            </motion.button>
+          </Link>
 
-    <ChevronRightIcon className="w-4 h-4 text-gray-300" />
+          <ChevronRightIcon className="w-4 h-4 text-gray-300" />
 
-   <button
-      onClick={handleBackToServices}
-      className={`hover:text-green-600 transition flex items-center gap-1 ${
-        currentView === "services" ? "text-green-600 font-medium" : "text-gray-500"
-      }`}
-    >
-      <FolderOpen className="w-4 h-4" />
-      <span className="font-semibold">Services</span> 
-    </button>
+          <button
+            onClick={handleBackToServices}
+            className={`hover:text-green-600 transition flex items-center gap-1 ${
+              currentView === "services" ? "text-green-600 font-medium" : "text-gray-500"
+            }`}
+          >
+            <FolderOpen className="w-4 h-4" />
+            <span className="font-semibold">{t('services')}</span> 
+          </button>
 
-    {selectedCategory && (
-      <>
-        <ChevronRightIcon className="w-4 h-4 text-gray-300" />
-        <button
-          onClick={handleBackToClients}
-          className={`hover:text-green-600 transition flex items-center gap-1 ${
-            currentView === "clients" ? "text-green-600 font-medium" : "text-gray-500"
-          }`}
-        >
-          <Heart className="w-4 h-4" />
-          <span>{selectedCategory.name}</span>
-        </button>
-      </>
-    )}
+          {selectedCategory && (
+            <>
+              <ChevronRightIcon className="w-4 h-4 text-gray-300" />
+              <button
+                onClick={handleBackToClients}
+                className={`hover:text-green-600 transition flex items-center gap-1 ${
+                  currentView === "clients" ? "text-green-600 font-medium" : "text-gray-500"
+                }`}
+              >
+                <Heart className="w-4 h-4" />
+                <span>{selectedCategory.name[language]}</span>
+              </button>
+            </>
+          )}
 
-    {selectedClient && (
-      <>
-        <ChevronRightIcon className="w-4 h-4 text-gray-300" />
-        <span className="text-green-600 font-medium flex items-center gap-1">
-          <Camera className="w-4 h-4" />
-          {selectedClient.clientName}
-        </span>
-      </>
-    )}
-  </div>
+          {selectedClient && (
+            <>
+              <ChevronRightIcon className="w-4 h-4 text-gray-300" />
+              <span className="text-green-600 font-medium flex items-center gap-1">
+                <Camera className="w-4 h-4" />
+                {selectedClient.clientName}
+              </span>
+            </>
+          )}
+        </div>
 
-  {/* Dynamic Content */}
-  {currentView === "services" && (
-    <ServiceCategoriesGrid onSelectCategory={handleSelectCategory} />
-  )}
+        {/* Dynamic Content */}
+        {currentView === "services" && (
+          <ServiceCategoriesGrid 
+            onSelectCategory={handleSelectCategory} 
+            language={language}
+            t={t}
+          />
+        )}
 
-  {currentView === "clients" && selectedCategory && (
-    <ClientList
-      category={selectedCategory}
-      onSelectClient={handleSelectClient}
-      onBack={handleBackToServices}
-    />
-  )}
+        {currentView === "clients" && selectedCategory && (
+          <ClientList
+            category={selectedCategory}
+            onSelectClient={handleSelectClient}
+            onBack={handleBackToServices}
+            language={language}
+            t={t}
+          />
+        )}
 
-  {currentView === "gallery" && selectedClient && (
-    <ImageGallery
-      client={selectedClient}
-      onBack={handleBackToClients}
-    />
-  )}
-</section>
+        {currentView === "gallery" && selectedClient && (
+          <ImageGallery
+            client={selectedClient}
+            onBack={handleBackToClients}
+            language={language}
+            t={t}
+          />
+        )}
+      </section>
 
       {/* Footer with Social Media */}
       <footer className="py-12 px-4 bg-gray-900 text-white mt-20">
@@ -961,41 +1241,40 @@ export default function PortfolioPage() {
             <div>
               <h3 className="text-2xl font-light mb-4">Nuhaa Lens</h3>
               <p className="text-gray-400 text-sm">
-                Creating timeless memories through professional wedding and
-                event services.
+                {t('creatingMemories')}
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <h4 className="font-semibold mb-4">{t('quickLinks')}</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link href="/" className="hover:text-white transition">
-                    Home
+                    {t('home')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/booking" className="hover:text-white transition">
-                    Book Now
+                    {t('bookNow')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/" className="hover:text-white transition">
-                    Services
+                    {t('services')}
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Portfolio</h4>
+              <h4 className="font-semibold mb-4">{t('services')}</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Wedding</li>
-                <li>Engagement</li>
-                <li>Emcee</li>
-                <li>Bride Assistant</li>
+                <li>{t('weddingPhotography')}</li>
+                <li>{t('engagementPhotography')}</li>
+                <li>{t('emceeServices')}</li>
+                <li>{t('brideAssistant')}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Follow Us</h4>
+              <h4 className="font-semibold mb-4">{t('followUs')}</h4>
               <div className="flex gap-4">
                 <motion.a
                   href={socialLinks.instagram}
@@ -1028,7 +1307,7 @@ export default function PortfolioPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 Nuhaa Lens. All rights reserved.</p>
+            <p>&copy; 2026 Nuhaa Lens. {t('rightsReserved')}.</p>
           </div>
         </div>
       </footer>
