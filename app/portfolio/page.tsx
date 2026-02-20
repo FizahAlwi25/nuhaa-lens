@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Camera,
+  Cake,
   Heart,
   Sparkles,
   Instagram,
@@ -259,6 +260,70 @@ const portfolioData: ServiceCategory[] = [
       }
     ]
   },
+   {
+    id: "birthday",
+    name: "Birthday Photography",
+    icon: <Cake className="w-8 h-8" />,
+    description: "Birthday celebration shoot",
+    color: "from-red-500 to-orange-500",
+    clientCount: 5,
+    clients: [
+      {
+        id: "birthday-maya-danial",
+        clientName: "Maya & Danial Birthday",
+        weddingDate: "January 2026",
+        location: "Botanical Garden, Putrajaya",
+        description: "Birthday celebration shoot",
+        coverImage: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3",
+        images: [
+          {
+            id: "maya-1",
+            url: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3",
+            caption: "Garden Session",
+            category: "Outdoor"
+          },
+          {
+            id: "maya-2",
+            url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3",
+            caption: "Couple Portrait",
+            category: "Portrait"
+          },
+          {
+            id: "maya-3",
+            url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3",
+            caption: "Candid Moment",
+            category: "Candid"
+          }
+        ],
+        tags: ["Birthday", "Outdoor", "Couple"],
+        featured: true,
+      },
+      {
+        id: "engagement-aisyah-azhar",
+        clientName: "Aisyah & Azhar Engagement",
+        weddingDate: "December 2025",
+        location: "Studio KL",
+        description: "Studio engagement session with modern themes.",
+        coverImage: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3",
+        images: [
+          {
+            id: "aisyah-1",
+            url: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3",
+            caption: "Studio Session",
+            category: "Studio"
+          },
+          {
+            id: "aisyah-2",
+            url: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3",
+            caption: "Couple Portrait",
+            category: "Portrait"
+          }
+        ],
+        tags: ["Engagement", "Studio", "Modern"],
+        featured: false,
+      }
+    ]
+  },
   {
     id: "emcee",
     name: "Emcee Services",
@@ -456,17 +521,6 @@ function ClientList({
 }) {
   return (
     <div className="space-y-6">
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={onBack}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6"
-      >
-        <ChevronLeft className="w-5 h-5" />
-        Back to Services
-      </motion.button>
-
       {/* Category header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -843,14 +897,14 @@ export default function PortfolioPage() {
 
     <ChevronRightIcon className="w-4 h-4 text-gray-300" />
 
-    <button
+   <button
       onClick={handleBackToServices}
       className={`hover:text-green-600 transition flex items-center gap-1 ${
         currentView === "services" ? "text-green-600 font-medium" : "text-gray-500"
       }`}
     >
       <FolderOpen className="w-4 h-4" />
-      <span>Services</span>
+      <span className="font-semibold">Services</span> 
     </button>
 
     {selectedCategory && (
