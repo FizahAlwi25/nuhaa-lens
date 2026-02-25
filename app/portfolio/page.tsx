@@ -142,7 +142,7 @@ const translations: Translations = {
   },
   'floorManager': {
     en: 'Floor Manager',
-    bm: 'Pengurus Lantai'
+    bm: 'Pengurus Majlis'
   },
   'floorManagerDesc': {
     en: 'Professional event coordination',
@@ -638,23 +638,25 @@ const FloatingParticle = ({ delay = 0, size = 4, left = "0%", top = "0%" }) => (
 );
 
 // Language Toggle Component
-function LanguageToggle({ language, setLanguage }: { language: Language; setLanguage: (lang: Language) => void }) {
+function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
   return (
     <motion.div
-      className="fixed z-50"
-      style={{ 
-        top: 'calc(2vh)', 
-        right: 'calc(2vw)' 
-      }}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.5 }}
-    >
+        className="absolute z-50" // Changed from "fixed" to "absolute"
+        style={{ 
+          top: 'calc(3vh)', // Slightly increased from 2vh to 5vh to position it better
+          right: 'calc(3vw)' 
+        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.5 }}
+      >
+      {/* Rest of your component remains the same */}
       <motion.div
         className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
       >
+        {/* English option */}
         <motion.button
           onClick={() => setLanguage('en')}
           className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
@@ -665,6 +667,7 @@ function LanguageToggle({ language, setLanguage }: { language: Language; setLang
           whileTap={{ scale: 0.95 }}
         >
           <span className="relative z-10">EN</span>
+          
           {language === 'en' && (
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
@@ -674,6 +677,7 @@ function LanguageToggle({ language, setLanguage }: { language: Language; setLang
           )}
         </motion.button>
 
+        {/* Malay option */}
         <motion.button
           onClick={() => setLanguage('bm')}
           className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
@@ -684,6 +688,7 @@ function LanguageToggle({ language, setLanguage }: { language: Language; setLang
           whileTap={{ scale: 0.95 }}
         >
           <span className="relative z-10">BM</span>
+          
           {language === 'bm' && (
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
@@ -692,6 +697,21 @@ function LanguageToggle({ language, setLanguage }: { language: Language; setLang
             />
           )}
         </motion.button>
+      </motion.div>
+
+      {/* Floating particles */}
+      <motion.div
+        className="absolute -inset-2 -z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+        animate={{
+          opacity: [0, 0.3, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+        }}
+      >
+        <div className="absolute top-0 left-1/4 w-1 h-1 bg-green-400 rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-1.5 h-1.5 bg-emerald-400 rounded-full" />
       </motion.div>
     </motion.div>
   );
@@ -815,7 +835,7 @@ function ClientList({
               </div>
               
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-1">{client.clientName}</h3>
+                <h3 className="text-lg text-green-800 font-semibold mb-1">{client.clientName}</h3>
                 <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
                   <Calendar className="w-4 h-4" />
                   <span>{client.weddingDate}</span>
@@ -1120,7 +1140,7 @@ export default function PortfolioPage() {
           </motion.div>
 
           <motion.h1
-            className="text-6xl md:text-7xl font-light mb-4"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-4"
             animate={{
               textShadow: [
                 "0 0 20px rgba(255,255,255,0.5)",

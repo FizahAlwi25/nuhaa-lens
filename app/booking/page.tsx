@@ -521,21 +521,22 @@ interface LanguageToggleProps {
 function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
   return (
     <motion.div
-      className="fixed z-50"
-      style={{ 
-        top: '2vh', 
-        right: '2vw',
-        position: 'fixed' // Explicitly set fixed positioning
-      }}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.5 }}
-    >
+        className="absolute z-50" // Changed from "fixed" to "absolute"
+        style={{ 
+          top: 'calc(3vh)', // Slightly increased from 2vh to 5vh to position it better
+          right: 'calc(3vw)' 
+        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.5 }}
+      >
+      {/* Rest of your component remains the same */}
       <motion.div
         className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
       >
+        {/* English option */}
         <motion.button
           onClick={() => setLanguage('en')}
           className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
@@ -546,6 +547,7 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
           whileTap={{ scale: 0.95 }}
         >
           <span className="relative z-10">EN</span>
+          
           {language === 'en' && (
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
@@ -555,6 +557,7 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
           )}
         </motion.button>
 
+        {/* Malay option */}
         <motion.button
           onClick={() => setLanguage('bm')}
           className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
@@ -565,6 +568,7 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
           whileTap={{ scale: 0.95 }}
         >
           <span className="relative z-10">BM</span>
+          
           {language === 'bm' && (
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
@@ -573,6 +577,21 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
             />
           )}
         </motion.button>
+      </motion.div>
+
+      {/* Floating particles */}
+      <motion.div
+        className="absolute -inset-2 -z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+        animate={{
+          opacity: [0, 0.3, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+        }}
+      >
+        <div className="absolute top-0 left-1/4 w-1 h-1 bg-green-400 rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-1.5 h-1.5 bg-emerald-400 rounded-full" />
       </motion.div>
     </motion.div>
   );
@@ -1666,7 +1685,7 @@ export default function BookingPage() {
           </motion.div>
 
           <motion.h1 
-            className="text-6xl md:text-7xl font-light mb-4"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-4"
             animate={{ textShadow: ['0 0 20px rgba(255,255,255,0.5)', '0 0 40px rgba(255,255,255,0.8)', '0 0 20px rgba(255,255,255,0.5)'] }}
             transition={{ duration: 3, repeat: Infinity }}
           >
@@ -1782,7 +1801,7 @@ export default function BookingPage() {
               className="animate-fadeIn"
             >
               <motion.div variants={itemVariants} className="text-center mb-10">
-                <h2 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
+                <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
                   {t('selectYourServices')}
                 </h2>
                 <p className="text-gray-600 text-lg font-medium">{t('chooseServicesDesc')}</p>
@@ -2291,153 +2310,153 @@ export default function BookingPage() {
                 </motion.div>
                 
                 {/* Right Column - Form Fields */}
-                <motion.div variants={itemVariants} className="space-y-6">
-                  {/* Name */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('fullName')} *</label>
-                    <div className="relative group">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('enterFullName')}
-                      />
-                      <motion.div 
-                        className="absolute inset-0 rounded-lg pointer-events-none"
-                        whileHover={{ boxShadow: '0 0 20px rgba(16,185,129,0.1)' }}
-                      />
-                    </div>
-                  </motion.div>
+<motion.div variants={itemVariants} className="space-y-6">
+  {/* Name */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('fullName')} *</label>
+    <div className="relative group">
+      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleInputChange}
+        required
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('enterFullName')}
+      />
+      <motion.div 
+        className="absolute inset-0 rounded-lg pointer-events-none"
+        whileHover={{ boxShadow: '0 0 20px rgba(16,185,129,0.2)' }}
+      />
+    </div>
+  </motion.div>
 
-                  {/* Email */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('emailAddress')} *</label>
-                    <div className="relative group">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('emailPlaceholder')}
-                      />
-                    </div>
-                  </motion.div>
+  {/* Email */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('emailAddress')} *</label>
+    <div className="relative group">
+      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleInputChange}
+        required
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('emailPlaceholder')}
+      />
+    </div>
+  </motion.div>
 
-                  {/* Phone */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('phoneNumber')} *</label>
-                    <div className="relative group">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('phonePlaceholder')}
-                      />
-                    </div>
-                  </motion.div>
+  {/* Phone */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('phoneNumber')} *</label>
+    <div className="relative group">
+      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <input
+        type="tel"
+        name="phone"
+        value={formData.phone}
+        onChange={handleInputChange}
+        required
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('phonePlaceholder')}
+      />
+    </div>
+  </motion.div>
 
-                  {/* Instagram */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('instagramOptional')}</label>
-                    <div className="relative group">
-                      <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <input
-                        type="text"
-                        name="instagram"
-                        value={formData.instagram}
-                        onChange={handleInputChange}
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('instagramPlaceholder')}
-                      />
-                    </div>
-                  </motion.div>
+  {/* Instagram */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('instagramOptional')}</label>
+    <div className="relative group">
+      <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <input
+        type="text"
+        name="instagram"
+        value={formData.instagram}
+        onChange={handleInputChange}
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('instagramPlaceholder')}
+      />
+    </div>
+  </motion.div>
 
-                  {/* Event Location */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('eventLocation')} *</label>
-                    <div className="relative group">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <input
-                        type="text"
-                        name="eventLocation"
-                        value={formData.eventLocation}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('locationPlaceholder')}
-                      />
-                    </div>
-                  </motion.div>
+  {/* Event Location */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventLocation')} *</label>
+    <div className="relative group">
+      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <input
+        type="text"
+        name="eventLocation"
+        value={formData.eventLocation}
+        onChange={handleInputChange}
+        required
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('locationPlaceholder')}
+      />
+    </div>
+  </motion.div>
 
-                  {/* Event Type */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('eventType')} *</label>
-                    <select
-                      name="eventType"
-                      value={formData.eventType}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium transition-all"
-                    >
-                      <option value="wedding">{t('wedding')}</option>
-                      <option value="engagement">{t('engagement')}</option>
-                      <option value="corporate">{t('corporate')}</option>
-                      <option value="birthday">{t('birthday')}</option>
-                      <option value="maternity">{t('maternity')}</option>
-                      <option value="aqiqah">{t('aqiqah')}</option>
-                      <option value="convocation">{t('convocation')}</option>
-                      <option value="other">{t('other')}</option>
-                    </select>
-                  </motion.div>
+  {/* Event Type */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventType')} *</label>
+    <select
+      name="eventType"
+      value={formData.eventType}
+      onChange={handleInputChange}
+      required
+      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium transition-all shadow-sm"
+    >
+      <option value="wedding" className="text-gray-900">{t('wedding')}</option>
+      <option value="engagement" className="text-gray-900">{t('engagement')}</option>
+      <option value="corporate" className="text-gray-900">{t('corporate')}</option>
+      <option value="birthday" className="text-gray-900">{t('birthday')}</option>
+      <option value="maternity" className="text-gray-900">{t('maternity')}</option>
+      <option value="aqiqah" className="text-gray-900">{t('aqiqah')}</option>
+      <option value="convocation" className="text-gray-900">{t('convocation')}</option>
+      <option value="other" className="text-gray-900">{t('other')}</option>
+    </select>
+  </motion.div>
 
-                  {/* Message */}
-                  <motion.div variants={itemVariants}>
-                    <label className="block text-sm font-bold mb-2 text-gray-700">{t('specialRequests')}</label>
-                    <div className="relative group">
-                      <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-400 group-focus-within:text-green-600 transition-colors" />
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        rows={4}
-                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-                        placeholder={t('tellUsAbout')}
-                      />
-                    </div>
-                  </motion.div>
-                </motion.div>
+  {/* Message */}
+  <motion.div variants={itemVariants}>
+    <label className="block text-sm font-bold mb-2 text-gray-800">{t('specialRequests')}</label>
+    <div className="relative group">
+      <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+      <textarea
+        name="message"
+        value={formData.message}
+        onChange={handleInputChange}
+        rows={4}
+        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+        placeholder={t('tellUsAbout')}
+      />
+    </div>
+  </motion.div>
+</motion.div>
               </div>
 
               <motion.div 
                 variants={itemVariants}
                 className="flex gap-4 mt-10"
               >
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="flex-1 border-2 border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition-all relative overflow-hidden group"
-                >
-                  <span className="relative z-10">{t('back')}</span>
-                  <motion.div 
-                    className="absolute inset-0 bg-gray-200"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="button"
+                onClick={() => setStep(1)}
+                className="flex-1 border-2 border-gray-500 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-all relative overflow-hidden group"
+              >
+                <span className="relative z-10">{t('back')}</span>
+                <motion.div 
+                  className="absolute inset-0 bg-gray-700"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: 0 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.button>
                 <motion.button
                   whileHover={formData.eventDate ? { scale: 1.02 } : {}}
                   whileTap={formData.eventDate ? { scale: 0.98 } : {}}

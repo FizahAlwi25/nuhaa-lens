@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import {
@@ -42,6 +42,7 @@ import {
   Briefcase,
   PartyPopper as PartyIcon,
   Languages,
+  Menu,
 } from "lucide-react";
 
 // Language context and translations
@@ -55,17 +56,37 @@ interface Translations {
 
 const translations: Translations = {
   // Navigation
+  'home': {
+    en: 'Home',
+    bm: 'Laman Utama'
+  },
+  'services': {
+    en: 'Services',
+    bm: 'Perkhidmatan'
+  },
   'bookService': {
     en: 'Book a Service',
     bm: 'Tempah Perkhidmatan'
   },
   'exploreServices': {
-    en: 'Explore Services',
-    bm: 'Teroka Perkhidmatan'
+    en: 'Our Services',
+    bm: 'Perkhidmatan Kami'
   },
   'portfolio': {
     en: 'Portfolio',
     bm: 'Portfolio'
+  },
+  'whyChooseUs': {
+    en: 'Why Us',
+    bm: 'Mengapa Kami'
+  },
+  'contact': {
+    en: 'Contact',
+    bm: 'Hubungi'
+  },
+  'about': {
+    en: 'About',
+    bm: 'Tentang'
   },
   'heroSubtitle': {
     en: 'Complete Wedding & Event Solutions',
@@ -204,7 +225,7 @@ const translations: Translations = {
     bm: 'Tempah Sekarang'
   },
   // Why Choose Us
-  'whyChooseUs': {
+  'whyChooseUsTitle': {
     en: 'Why Choose',
     bm: 'Mengapa Pilih'
   },
@@ -263,12 +284,12 @@ const translations: Translations = {
     bm: 'Bersedia untuk Merancang Hari Sempurna Anda?'
   },
   'letsDiscuss': {
-    en: 'Let\'s discuss how we can bring your vision to life',
-    bm: 'Mari bincangkan bagaimana kami dapat merealisasikan visi anda'
+    en: 'For any price adjustments or special requests, please send me your budget below',
+    bm: 'Untuk penyesuaian harga atau permintaan khusus, silakan kirimkan anggaran bajet anda di bawah ini'
   },
   'freeConsultation': {
-    en: 'Book a Free Consultation',
-    bm: 'Tempah Konsultasi Percuma'
+    en: 'Send your budget here',
+    bm: 'Hantar bajet anda disini'
   },
   'noHiddenFees': {
     en: 'No hidden fees',
@@ -286,14 +307,6 @@ const translations: Translations = {
   'quickLinks': {
     en: 'Quick Links',
     bm: 'Pautan Pantas'
-  },
-  'home': {
-    en: 'Home',
-    bm: 'Laman Utama'
-  },
-  'services': {
-    en: 'Services',
-    bm: 'Perkhidmatan'
   },
   'followUs': {
     en: 'Follow Us',
@@ -790,31 +803,39 @@ const FloatingParticle = ({ delay = 0, size = 4, left = "0%", top = "0%" }) => (
 interface LanguageToggleProps {
   language: Language;
   setLanguage: (lang: Language) => void;
+  size?: 'normal' | 'large';
 }
 
-// Alternative minimalist elegant version with increased spacing
-function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
+// Update the LanguageToggle component to be smaller
+function LanguageToggle({ language, setLanguage, size = 'normal' }: LanguageToggleProps) {
+  const sizeClasses = {
+    normal: {
+      button: 'px-4 py-2 text-sm font-medium', // Reduced from px-8 py-4 text-lg
+      container: 'rounded-lg', // Reduced from rounded-2xl
+    },
+    large: {
+      button: 'px-6 py-3 text-base font-semibold', // Reduced from px-10 py-5 text-xl
+      container: 'rounded-xl', // Reduced from rounded-3xl
+    }
+  };
+
+  const classes = sizeClasses[size];
+
   return (
     <motion.div
-        className="fixed z-50"
-        style={{ 
-          top: 'calc(2vh)', 
-          right: 'calc(2vw)' 
-        }}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-      >
-      {/* Elegant minimal container without border */}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.5 }}
+    >
       <motion.div
-        className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
+        className={`relative flex items-center bg-black/20 backdrop-blur-md ${classes.container} overflow-hidden`}
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
       >
         {/* English option */}
         <motion.button
           onClick={() => setLanguage('en')}
-          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+          className={`relative ${classes.button} font-light tracking-wider transition-all duration-300 ${
             language === 'en' 
               ? 'text-white bg-white/20' 
               : 'text-white/50 hover:text-white/80 hover:bg-white/5'
@@ -823,10 +844,9 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
         >
           <span className="relative z-10">EN</span>
           
-          {/* Subtle underline animation for active state */}
           {language === 'en' && (
             <motion.div
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400" // Reduced from h-1.5
               layoutId="languageUnderline"
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
@@ -836,7 +856,7 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
         {/* Malay option */}
         <motion.button
           onClick={() => setLanguage('bm')}
-          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
+          className={`relative ${classes.button} font-light tracking-wider transition-all duration-300 ${
             language === 'bm' 
               ? 'text-white bg-white/20' 
               : 'text-white/50 hover:text-white/80 hover:bg-white/5'
@@ -845,34 +865,511 @@ function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
         >
           <span className="relative z-10">BM</span>
           
-          {/* Subtle underline animation for active state */}
           {language === 'bm' && (
             <motion.div
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400" // Reduced from h-1.5
               layoutId="languageUnderline"
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />
           )}
         </motion.button>
       </motion.div>
-
-      {/* Elegant floating particles around the toggle */}
-      <motion.div
-        className="absolute -inset-2 -z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-        animate={{
-          opacity: [0, 0.3, 0],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-        }}
-      >
-        <div className="absolute top-0 left-1/4 w-1 h-1 bg-green-400 rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-      </motion.div>
     </motion.div>
   );
 }
+
+// Mobile Dropdown Item Component
+interface MobileDropdownItemProps {
+  icon: React.ReactNode;
+  label: string;
+  isActive?: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function MobileDropdownItem({ icon, label, isActive, onClick }: MobileDropdownItemProps) {
+  return (
+    <motion.button
+      onClick={onClick}
+      className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
+        isActive 
+          ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 border-l-4 border-green-400' 
+          : 'text-white/70 hover:bg-white/10 hover:text-white'
+      }`}
+      whileHover={{ x: 5 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <div className={`${isActive ? 'text-green-400' : 'text-white/50'}`}>
+        {icon}
+      </div>
+      <span className={`font-medium ${isActive ? 'text-green-400' : ''}`}>
+        {label}
+      </span>
+      {isActive && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="ml-auto"
+        >
+          <ChevronRight className="w-4 h-4 text-green-400" />
+        </motion.div>
+      )}
+    </motion.button>
+  );
+}
+
+interface NavigationMenuProps {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+  scrollToServices: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  scrollToContact: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  scrollToWhyChooseUs: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function NavigationMenu({ language, setLanguage, t, scrollToServices, scrollToContact, scrollToWhyChooseUs }: NavigationMenuProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Detect screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Only show background after scrolling past hero section
+      setIsScrolled(window.scrollY > 100);
+      
+      const homeSection = document.getElementById('home');
+      const servicesSection = document.getElementById('services');
+      const whyChooseUsSection = document.getElementById('why-choose-us');
+      const contactSection = document.getElementById('contact');
+      
+      const sections = [
+        { id: 'home', offset: homeSection?.offsetTop || 0 },
+        { id: 'services', offset: servicesSection?.offsetTop || 0 },
+        { id: 'why-choose-us', offset: whyChooseUsSection?.offsetTop || 0 },
+        { id: 'contact', offset: contactSection?.offsetTop || 0 },
+      ];
+
+      const scrollPosition = window.scrollY + 200;
+
+      let currentActive = 'home';
+      for (let i = sections.length - 1; i >= 0; i--) {
+        if (scrollPosition >= sections[i].offset) {
+          currentActive = sections[i].id;
+          break;
+        }
+      }
+      
+      setActiveSection(currentActive);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  const scrollToTop = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setActiveSection('home');
+  };
+
+  return (
+    <>
+      {/* Web Navigation - Only visible on web */}
+      {isDesktop && (
+        <motion.header
+          className="fixed top-0 left-0 right-0 z-50"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.div 
+            className={`transition-all duration-500 ${
+              isScrolled 
+                ? 'bg-black/60 backdrop-blur-md shadow-lg shadow-black/20 py-3' 
+                : 'bg-transparent py-5'
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-2">
+              <div className="flex items-center justify-between">
+                {/* Brand - Far left corner */}
+                <motion.div 
+                  className="flex-shrink-0 ml-0"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Link href="/">
+                    <h1 className={`text-3xl font-bold tracking-tight transition-all duration-300 cursor-pointer ${
+                      isScrolled ? 'text-white' : 'text-white drop-shadow-lg'
+                    }`}>
+                      NUHAA<span className="text-green-400">LENS</span>
+                    </h1>
+                  </Link>
+                </motion.div>
+
+                {/* Centered Menu */}
+                <nav className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+                  <div className="flex items-center gap-8">
+                    <NavItem 
+                      action={scrollToTop} 
+                      label="HOME" 
+                      isActive={activeSection === 'home'}
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={scrollToServices} 
+                      label="SERVICE" 
+                      isActive={activeSection === 'services'}
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={scrollToWhyChooseUs} 
+                      label="WHY US" 
+                      isActive={activeSection === 'why-choose-us'}
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={scrollToContact} 
+                      label="CONTACT" 
+                      isActive={activeSection === 'contact'}
+                      isScrolled={isScrolled}
+                    />
+                  </div>
+                </nav>
+
+                {/* Language Toggle - Right side */}
+                <div className="flex-shrink-0">
+                  <LanguageToggle language={language} setLanguage={setLanguage} size="normal" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.header>
+      )}
+
+      {/* Mobile Navigation - Only visible on mobile */}
+      {!isDesktop && (
+        <>
+          {/* Header - Always visible */}
+          <motion.div
+            className="fixed top-0 left-0 right-0 z-50"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <motion.div 
+              className={`transition-all duration-500 ${
+                isScrolled || isMobileMenuOpen
+                  ? 'bg-black/60 backdrop-blur-md shadow-lg shadow-black/20 py-3' 
+                  : 'pt-4 pb-3'
+              }`}
+            >
+              <div className="flex items-center justify-between px-2">
+                {/* Empty div for spacing (left side) */}
+                <div className="w-12"></div>
+
+                {/* Brand - Center */}
+                <Link href="/">
+                  <motion.div 
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="text-2xl font-bold text-white">
+                      NUHAA<span className="text-green-400">LENS</span>
+                    </span>
+                  </motion.div>
+                </Link>
+
+                {/* Dropdown Menu Button - Right on mobile */}
+                <motion.button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors relative z-50"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.div
+                    animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {isMobileMenuOpen ? (
+                      <X className="w-6 h-6 text-white" />
+                    ) : (
+                      <Menu className="w-6 h-6 text-white" />
+                    )}
+                  </motion.div>
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Mobile Dropdown Menu */}
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <>
+                {/* Full-screen overlay with blur - starts below header */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 bg-black/60 backdrop-blur-xl z-40"
+                  style={{ top: '72px' }} // Start below the header (adjust this value based on your header height)
+                  onClick={() => setIsMobileMenuOpen(false)}
+                />
+
+                {/* Dropdown Menu - positioned below header */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="fixed left-2 right-2 z-50 mt-2 bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl border border-white/20"
+                  style={{ top: '72px' }} // Position below header (adjust this value)
+                >
+                  {/* Decorative header */}
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4">
+                    <p className="text-white text-2xl font-light opacity-90">Menu</p>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="p-4 space-y-2 max-h-[calc(100vh-120px)] overflow-y-auto">
+                    {/* Home */}
+                    <MobileDropdownItem
+                      icon={<Camera className="w-5 h-5" />}
+                      label="HOME"
+                      isActive={activeSection === 'home'}
+                      onClick={(e) => {
+                        scrollToTop(e);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    />
+
+                    {/* Services */}
+                    <MobileDropdownItem
+                      icon={<Sparkles className="w-5 h-5" />}
+                      label="SERVICE"
+                      isActive={activeSection === 'services'}
+                      onClick={(e) => {
+                        scrollToServices(e);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    />
+
+                    {/* Why Us */}
+                    <MobileDropdownItem
+                      icon={<Award className="w-5 h-5" />}
+                      label="WHY US"
+                      isActive={activeSection === 'why-choose-us'}
+                      onClick={(e) => {
+                        scrollToWhyChooseUs(e);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    />
+
+                    {/* Contact */}
+                    <MobileDropdownItem
+                      icon={<Phone className="w-5 h-5" />}
+                      label="CONTACT"
+                      isActive={activeSection === 'contact'}
+                      onClick={(e) => {
+                        scrollToContact(e);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    />
+
+                    {/* Divider */}
+                    <div className="my-4 border-t border-white/10"></div>
+
+                    {/* Language Selector */}
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">LANGUAGE</p>
+                      <div className="flex items-center gap-2">
+                        <motion.button
+                          onClick={() => {
+                            setLanguage('en');
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+                            language === 'en' 
+                              ? 'bg-green-600 text-white shadow-lg shadow-green-600/30' 
+                              : 'bg-white/10 text-white/70 hover:bg-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          ENGLISH
+                        </motion.button>
+                        <motion.button
+                          onClick={() => {
+                            setLanguage('bm');
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+                            language === 'bm' 
+                              ? 'bg-green-600 text-white shadow-lg shadow-green-600/30' 
+                              : 'bg-white/10 text-white/70 hover:bg-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          MALAYSIA
+                        </motion.button>
+                      </div>
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">QUICK ACTIONS</p>
+
+                      <div className="flex flex-col gap-4">
+                        <Link href="/booking" className="block">
+                          <motion.button
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-medium relative overflow-hidden"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <span className="relative z-10 flex items-center justify-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              Book Now
+                            </span>
+                            <motion.div
+                              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                              animate={{ x: ["-100%", "100%"] }}
+                              transition={{ duration: 1.5, repeat: Infinity }}
+                            />
+                          </motion.button>
+                        </Link>
+
+                        <Link href="/portfolio" className="block">
+                          <motion.button
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="w-full bg-white/10 text-white py-3 rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-colors"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            View Portfolio
+                          </motion.button>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Social Media */}
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">FOLLOW US</p>
+                      <div className="flex items-center gap-3">
+                        <motion.a
+                          href={socialLinks.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Instagram className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href={socialLinks.tiktok}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Music2 className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href={socialLinks.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Facebook className="w-5 h-5 text-white" />
+                        </motion.a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+    </>
+  );
+}
+
+// Updated NavItem component
+interface NavItemProps {
+  href?: string;
+  action?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  label: string;
+  isActive?: boolean;
+  isScrolled?: boolean;
+}
+
+function NavItem({ href, action, label, isActive, isScrolled = true }: NavItemProps) {
+  const buttonStyle = {
+    borderBottom: isActive ? '2px solid #22c55e' : '2px solid transparent',
+    padding: '6px 12px',
+    color: isScrolled ? 'white' : 'white',
+    fontSize: '1rem',
+    fontWeight: isActive ? '600' : '400',
+    letterSpacing: '0.05em',
+    background: 'transparent',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    textShadow: !isScrolled ? '0 2px 4px rgba(0,0,0,0.3)' : 'none',
+  };
+
+  const content = (
+    <button
+      onClick={action}
+      style={buttonStyle}
+      className="focus:outline-none hover:opacity-80 transition-opacity"
+    >
+      {label}
+    </button>
+  );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
+}
+
+
 // Main Photography Modal Component
 interface PhotographyModalProps {
   isOpen: boolean;
@@ -902,7 +1399,7 @@ function PhotographyModal({ isOpen, onClose, onSelectCategory, language, t }: Ph
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] flex flex-col relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header - Fixed at top */}
+        {/* Header */}
         <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center rounded-t-2xl">
           <h2 className="text-3xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             {t('photographyPackages')}
@@ -911,9 +1408,9 @@ function PhotographyModal({ isOpen, onClose, onSelectCategory, language, t }: Ph
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-300 transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="text-gray-800 w-5 h-5" />
           </motion.button>
         </div>
 
@@ -934,7 +1431,6 @@ function PhotographyModal({ isOpen, onClose, onSelectCategory, language, t }: Ph
                 className="group cursor-pointer"
               >
                 <div className={`bg-gradient-to-br ${category.color} rounded-xl p-6 text-white hover:shadow-xl transition-shadow relative overflow-hidden`}>
-                  {/* Background pattern */}
                   <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   
                   <div className="relative z-10">
@@ -959,8 +1455,8 @@ function PhotographyModal({ isOpen, onClose, onSelectCategory, language, t }: Ph
 
           {/* Additional Services Section */}
           <div className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-2xl font-light mb-4">{t('additionalServices')}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <h3 className="text-2xl text-green-800 mb-4">{t('additionalServices')}</h3>
+            <div className="grid grid-cols-1 text-green-600 md:grid-cols-3 gap-4">
               {photographyPackages.additional.map((item, index) => (
                 <div
                   key={index}
@@ -1013,7 +1509,7 @@ function CategoryPackagesModal({ isOpen, onClose, category, language, t }: Categ
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] flex flex-col relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header - Fixed at top */}
+        {/* Header */}
         <div className={`flex-shrink-0 bg-gradient-to-r ${category.color} p-6 flex justify-between items-center text-white rounded-t-2xl`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
@@ -1042,14 +1538,12 @@ function CategoryPackagesModal({ isOpen, onClose, category, language, t }: Categ
                 transition={{ delay: index * 0.1 }}
                 className="border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-shadow relative overflow-hidden group"
               >
-                {/* Background gradient on hover */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5`}
                   initial={false}
                   transition={{ duration: 0.3 }}
                 />
 
-                {/* Popular tag for highest package */}
                 {index === category.packages.length - 1 && category.packages.length > 1 && (
                   <motion.div
                     initial={{ x: 100 }}
@@ -1113,6 +1607,8 @@ export default function Home() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const heroRef = useRef(null);
+  const whyChooseUsRef = useRef(null);
+  const contactRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -1136,6 +1632,22 @@ export default function Home() {
     const servicesSection = document.getElementById("services");
     if (servicesSection) {
       servicesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToWhyChooseUs = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const whyChooseUsSection = document.getElementById("why-choose-us");
+    if (whyChooseUsSection) {
+      whyChooseUsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -1186,8 +1698,15 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      {/* Language Toggle */}
-      <LanguageToggle language={language} setLanguage={setLanguage} />
+      {/* Navigation Menu */}
+      <NavigationMenu 
+        language={language} 
+        setLanguage={setLanguage}
+        t={t} 
+        scrollToServices={scrollToServices}
+        scrollToContact={scrollToContact}
+        scrollToWhyChooseUs={scrollToWhyChooseUs}
+      />
 
       {/* Photography Modals */}
       <PhotographyModal
@@ -1221,6 +1740,7 @@ export default function Home() {
       {/* Hero Section */}
       <section
         ref={heroRef}
+        id="home"
         className="relative h-screen flex items-center justify-center overflow-hidden"
       >
         {/* Background Image with Parallax */}
@@ -1263,7 +1783,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <motion.h1
-            className="text-7xl md:text-8xl font-light mb-4"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-4"
             animate={{
               textShadow: [
                 "0 0 20px rgba(255,255,255,0.5)",
@@ -1290,7 +1810,7 @@ export default function Home() {
           </motion.p>
 
           <motion.p
-            className="text-xl md:text-2xl mb-6 opacity-80 max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 opacity-80 max-w-3xl mx-auto px-4"
             variants={itemVariants}
           >
             {t('heroServices')}
@@ -1306,7 +1826,7 @@ export default function Home() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group relative bg-white text-black px-10 py-4 rounded-full text-lg font-medium overflow-hidden"
+                  className="group relative bg-white text-black px-8 py-3 rounded-full text-lg font-medium overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center">
                     {t('bookService')}
@@ -1330,7 +1850,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={scrollToServices}
-                className="group border-2 border-white px-10 py-4 rounded-full text-lg font-medium relative overflow-hidden"
+                className="group border-2 border-white px-8 py-3 rounded-full text-lg font-medium relative overflow-hidden"
               >
                 <span className="relative z-10 flex items-center">
                   {t('exploreServices')}
@@ -1351,7 +1871,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative bg-gradient-to-r from-green-500 to-emerald-500 text-white px-10 py-4 rounded-full text-lg font-medium overflow-hidden shadow-lg shadow-green-500/30"
+                className="group relative bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-3 rounded-full text-lg font-medium overflow-hidden shadow-lg shadow-green-500/30"
               >
                 <span className="relative z-10 flex items-center">
                   <Camera className="w-5 h-5 mr-2" />
@@ -1373,7 +1893,7 @@ export default function Home() {
             </Link>
           </motion.div>
 
-          {/* Social Media Icons - Positioned below buttons */}
+          {/* Social Media Icons */}
           <motion.div
             className="flex justify-center gap-4"
             initial={{ y: 20, opacity: 0 }}
@@ -1445,10 +1965,10 @@ export default function Home() {
             <Sparkle className="w-10 h-10 text-white" />
           </motion.div>
 
-          <h2 className="text-5xl md:text-6xl font-light mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+          <h2 className="text-5xl md:text-5xl sm:text-4xl font-light mb-4 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             {t('ourServices')}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl md:text-lg text-gray-600 max-w-3xl mx-auto">
             {t('servicesSubtitle')}
           </p>
         </motion.div>
@@ -1562,7 +2082,11 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 px-4 bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900 text-white relative overflow-hidden">
+      <section
+        id="why-choose-us"
+        ref={whyChooseUsRef}
+        className="py-20 px-4 bg-gradient-to-br from-green-900 via-emerald-800 to-teal-900 text-white relative overflow-hidden"
+      >
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-64 h-64 bg-green-400 rounded-full filter blur-3xl" />
@@ -1576,7 +2100,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            {t('whyChooseUs')}{" "}
+            {t('whyChooseUsTitle')}{" "}
             <span className="font-normal bg-gradient-to-r from-green-300 to-emerald-300 bg-clip-text text-transparent">
               Nuhaa Lens?
             </span>
@@ -1707,7 +2231,7 @@ export default function Home() {
       </section>
 
       {/* Contact Info Bar */}
-      <section className="py-8 px-4 bg-gray-900 text-white">
+      <section id="contact" ref={contactRef} className="py-8 px-4 bg-gray-900 text-white">
         <motion.div
           className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"
           initial={{ opacity: 0, y: 20 }}
@@ -1827,40 +2351,42 @@ export default function Home() {
             {t('letsDiscuss')}
           </motion.p>
 
-          <Link href="/booking">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group bg-white text-green-600 px-12 py-5 rounded-full text-xl font-medium relative overflow-hidden shadow-lg shadow-green-500/30"
-            >
-              <span className="relative z-10 flex items-center">
-                {t('freeConsultation')}
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Gift className="w-6 h-6 ml-3 text-green-500" />
-                </motion.div>
-              </span>
-
-              {/* Animated background on hover */}
+          {/* WhatsApp Button */}
+          <motion.a
+            href="https://wa.link/y15fs9"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group inline-block bg-white text-green-600 px-10 py-4 rounded-full text-xl font-medium relative overflow-hidden shadow-lg shadow-green-500/30 cursor-pointer"
+          >
+            <span className="relative z-10 flex items-center">
+              {t('freeConsultation')}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: 0 }}
-                transition={{ duration: 0.3 }}
-              />
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Gift className="w-6 h-6 ml-3 text-green-500" />
+              </motion.div>
+            </span>
 
-              {/* Shimmer effect */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ["-100%", "100%"] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-            </motion.button>
-          </Link>
+            {/* Animated background on hover */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3 }}
+            />
 
-          {/* Trust badges or additional text */}
+            {/* Shimmer effect */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{ x: ["-100%", "100%"] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+          </motion.a>
+
+          {/* Trust badges */}
           <motion.div
             className="flex justify-center gap-6 mt-12 text-sm text-green-100"
             initial={{ opacity: 0 }}
@@ -1899,7 +2425,7 @@ export default function Home() {
         />
       </section>
 
-      {/* Footer with Social Media */}
+      {/* Footer */}
       <footer className="py-12 px-4 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -2012,6 +2538,7 @@ interface ServiceCardProps {
   t: (key: string) => string;
 }
 
+// Service Card Component
 function ServiceCard({
   icon,
   title,
@@ -2047,7 +2574,7 @@ function ServiceCard({
       className={`group relative rounded-2xl p-8 overflow-hidden ${
         highlight
           ? "bg-gradient-to-br from-green-600 to-emerald-600 text-white shadow-2xl scale-105 ring-2 ring-green-300 ring-offset-2 ring-offset-green-50"
-          : "bg-white hover:shadow-2xl"
+          : "bg-white hover:shadow-2xl border-2 border-gray-200 md:border-0"
       } transition-all duration-300`}
     >
       {/* Animated background gradient */}

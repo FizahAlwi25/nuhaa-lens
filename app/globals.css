@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Desktop only - hide on mobile */
+@media (max-width: 1023px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Mobile only - hide on desktop */
+@media (min-width: 1024px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Ensure the mobile menu button is always visible on mobile */
+.mobile-menu-button {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-button {
+    display: none !important;
+  }
+}
