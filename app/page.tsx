@@ -1042,7 +1042,7 @@ function NavigationMenu({ language, setLanguage, t, scrollToServices, scrollToCo
                     />
                     <NavItem 
                       action={scrollToServices} 
-                      label="SERVICE" 
+                      label="SERVICES" 
                       isActive={activeSection === 'services'}
                       isScrolled={isScrolled}
                     />
@@ -1438,7 +1438,7 @@ function PhotographyModal({ isOpen, onClose, onSelectCategory, language, t }: Ph
                       <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                         {category.icon}
                       </div>
-                      <h3 className="text-xl font-semibold">{category.name}</h3>
+                      <h3 className="text-xl text-font-semibold">{category.name}</h3>
                     </div>
                     <p className="text-white/80 text-sm mb-4">{category.description}</p>
                     <div className="flex items-center justify-between">
@@ -1554,7 +1554,7 @@ function CategoryPackagesModal({ isOpen, onClose, category, language, t }: Categ
                   </motion.div>
                 )}
 
-                <h3 className="text-xl font-semibold mb-2">{pkg.name[language]}</h3>
+                <h3 className="text-xl text-green-600 font-semibold mb-2">{pkg.name[language]}</h3>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-3xl font-bold text-green-600">
                     {pkg.price}
@@ -2528,7 +2528,7 @@ interface ServiceCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  features: string[];
+  features: string | string[];
   price: string;
   color: string;
   highlight?: boolean;
@@ -2555,7 +2555,11 @@ function ServiceCard({
   const [isHovered, setIsHovered] = useState(false);
 
   // Convert features string to array if it's a string
-  const featuresArray = typeof features === 'string' ? features.split(',') : features;
+  const featuresArray = typeof features === 'string'
+    ? features.split(',')        // CSV string
+    : Array.isArray(features)
+      ? features                 // already array
+      : [];
 
   return (
     <motion.div

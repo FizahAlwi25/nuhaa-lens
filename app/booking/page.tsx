@@ -11,9 +11,10 @@ import {
   ChevronDown, X, Music2, Facebook, Package,
   HeartHandshake, GraduationCap, Briefcase, PartyPopper as PartyIcon,
   Camera as CameraIcon, Film, Mic2, Crown, Layers,
-  Sparkle, Smile
+  Sparkle, Smile, Menu
 } from 'lucide-react'
 
+// Language context and translations (same as main page)
 type Language = 'en' | 'bm';
 
 interface Translations {
@@ -28,6 +29,18 @@ const translations: Translations = {
     en: 'Home',
     bm: 'Laman Utama'
   },
+  'services': {
+    en: 'Services',
+    bm: 'Perkhidmatan'
+  },
+  'whyChooseUs': {
+    en: 'Why Us',
+    bm: 'Mengapa Kami'
+  },
+  'contact': {
+    en: 'Contact',
+    bm: 'Hubungi'
+  },
   'booking': {
     en: 'Booking',
     bm: 'Tempahan'
@@ -35,10 +48,6 @@ const translations: Translations = {
   'portfolio': {
     en: 'Portfolio',
     bm: 'Portfolio'
-  },
-  'services': {
-    en: 'Services',
-    bm: 'Perkhidmatan'
   },
   'quickLinks': {
     en: 'Quick Links',
@@ -510,100 +519,16 @@ const translations: Translations = {
     en: 'City, Venue',
     bm: 'Bandar, Tempat'
   },
-};
-
-// Language Toggle Component
-interface LanguageToggleProps {
-  language: Language;
-  setLanguage: (lang: Language) => void;
 }
 
-function LanguageToggle({ language, setLanguage }: LanguageToggleProps) {
-  return (
-    <motion.div
-        className="absolute z-50" // Changed from "fixed" to "absolute"
-        style={{ 
-          top: 'calc(3vh)', // Slightly increased from 2vh to 5vh to position it better
-          right: 'calc(3vw)' 
-        }}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-      >
-      {/* Rest of your component remains the same */}
-      <motion.div
-        className="relative flex items-center bg-black/20 backdrop-blur-md rounded-lg overflow-hidden"
-        whileHover={{ scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      >
-        {/* English option */}
-        <motion.button
-          onClick={() => setLanguage('en')}
-          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
-            language === 'en' 
-              ? 'text-white bg-white/20' 
-              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
-          }`}
-          whileTap={{ scale: 0.95 }}
-        >
-          <span className="relative z-10">EN</span>
-          
-          {language === 'en' && (
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
-              layoutId="languageUnderline"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-        </motion.button>
-
-        {/* Malay option */}
-        <motion.button
-          onClick={() => setLanguage('bm')}
-          className={`relative px-4 py-2 text-sm font-light tracking-wider transition-all duration-300 ${
-            language === 'bm' 
-              ? 'text-white bg-white/20' 
-              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
-          }`}
-          whileTap={{ scale: 0.95 }}
-        >
-          <span className="relative z-10">BM</span>
-          
-          {language === 'bm' && (
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
-              layoutId="languageUnderline"
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            />
-          )}
-        </motion.button>
-      </motion.div>
-
-      {/* Floating particles */}
-      <motion.div
-        className="absolute -inset-2 -z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-        animate={{
-          opacity: [0, 0.3, 0],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-        }}
-      >
-        <div className="absolute top-0 left-1/4 w-1 h-1 bg-green-400 rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-1.5 h-1.5 bg-emerald-400 rounded-full" />
-      </motion.div>
-    </motion.div>
-  );
-}
 // Social media links
 const socialLinks = {
   instagram: "https://www.instagram.com/nuhaa_lens?igsh=OWg0cGY2OGtpdTdm",
   tiktok: "https://www.tiktok.com/@nuhaa_lens?_r=1&_t=ZS-941KREHjgiT",
   facebook: "https://www.facebook.com/share/1D3xrpGTAH/",
-};
+}
 
-// Import photography packages data from home page
+// Photography Packages Data (same as main page)
 const photographyPackages = {
   wedding: [
     {
@@ -953,6 +878,547 @@ const photographyPackages = {
   ],
 }
 
+// Floating particles for background
+const FloatingParticle = ({ delay = 0, size = 4, left = "0%", top = "0%" }) => (
+  <motion.div
+    className="absolute rounded-full bg-white/20"
+    style={{ left, top, width: size, height: size }}
+    animate={{
+      y: [0, -30, 0],
+      x: [0, 15, 0],
+      opacity: [0.2, 0.5, 0.2],
+    }}
+    transition={{
+      duration: 8,
+      delay,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  />
+)
+
+// NavItem Component (same as main page)
+interface NavItemProps {
+  href?: string;
+  action?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  label: string;
+  isActive?: boolean;
+  isScrolled?: boolean;
+}
+
+function NavItem({ href, action, label, isActive, isScrolled = true }: NavItemProps) {
+  const buttonStyle = {
+    borderBottom: isActive ? '2px solid #22c55e' : '2px solid transparent',
+    padding: '6px 12px',
+    color: isScrolled ? 'white' : 'white',
+    fontSize: '1rem',
+    fontWeight: isActive ? '600' : '400',
+    letterSpacing: '0.05em',
+    background: 'transparent',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    textShadow: !isScrolled ? '0 2px 4px rgba(0,0,0,0.3)' : 'none',
+  };
+
+  const content = (
+    <button
+      onClick={action}
+      style={buttonStyle}
+      className="focus:outline-none hover:opacity-80 transition-opacity"
+    >
+      {label}
+    </button>
+  );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
+}
+
+// Language Toggle Component (same as main page)
+interface LanguageToggleProps {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  size?: 'normal' | 'large';
+}
+
+function LanguageToggle({ language, setLanguage, size = 'normal' }: LanguageToggleProps) {
+  const sizeClasses = {
+    normal: {
+      button: 'px-4 py-2 text-sm font-medium',
+      container: 'rounded-lg',
+    },
+    large: {
+      button: 'px-6 py-3 text-base font-semibold',
+      container: 'rounded-xl',
+    }
+  };
+
+  const classes = sizeClasses[size];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.5 }}
+    >
+      <motion.div
+        className={`relative flex items-center bg-black/20 backdrop-blur-md ${classes.container} overflow-hidden`}
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <motion.button
+          onClick={() => setLanguage('en')}
+          className={`relative ${classes.button} font-light tracking-wider transition-all duration-300 ${
+            language === 'en' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">EN</span>
+          
+          {language === 'en' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+
+        <motion.button
+          onClick={() => setLanguage('bm')}
+          className={`relative ${classes.button} font-light tracking-wider transition-all duration-300 ${
+            language === 'bm' 
+              ? 'text-white bg-white/20' 
+              : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+          }`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <span className="relative z-10">BM</span>
+          
+          {language === 'bm' && (
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400"
+              layoutId="languageUnderline"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </motion.button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// Mobile Dropdown Item Component (same as main page)
+interface MobileDropdownItemProps {
+  icon: React.ReactNode;
+  label: string;
+  isActive?: boolean;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function MobileDropdownItem({ icon, label, isActive, onClick }: MobileDropdownItemProps) {
+  return (
+    <motion.button
+      onClick={onClick}
+      className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all ${
+        isActive 
+          ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-400 border-l-4 border-green-400' 
+          : 'text-white/70 hover:bg-white/10 hover:text-white'
+      }`}
+      whileHover={{ x: 5 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <div className={`${isActive ? 'text-green-400' : 'text-white/50'}`}>
+        {icon}
+      </div>
+      <span className={`font-medium ${isActive ? 'text-green-400' : ''}`}>
+        {label}
+      </span>
+      {isActive && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="ml-auto"
+        >
+          <ChevronRight className="w-4 h-4 text-green-400" />
+        </motion.div>
+      )}
+    </motion.button>
+  );
+}
+
+// Navigation Menu Component (same as main page)
+interface NavigationMenuProps {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+  scrollToServices?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  scrollToContact?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  scrollToWhyChooseUs?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function NavigationMenu({ language, setLanguage, t, scrollToServices, scrollToContact, scrollToWhyChooseUs }: NavigationMenuProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('booking');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  const scrollToTop = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setActiveSection('booking');
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleHomeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    window.location.href = '/'; // Navigate to home page
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleServicesClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (scrollToServices) {
+      scrollToServices(e);
+    } else {
+      window.location.href = '/#services';
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleWhyUsClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (scrollToWhyChooseUs) {
+      scrollToWhyChooseUs(e);
+    } else {
+      window.location.href = '/#why-choose-us';
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (scrollToContact) {
+      scrollToContact(e);
+    } else {
+      window.location.href = '/#contact';
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <>
+      {/* Web Navigation - Only visible on web */}
+      {isDesktop && (
+        <motion.header
+          className="fixed top-0 left-0 right-0 z-50"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <motion.div 
+            className={`transition-all duration-500 ${
+              isScrolled 
+                ? 'bg-black/60 backdrop-blur-md shadow-lg shadow-black/20 py-3' 
+                : 'bg-transparent py-5'
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-2">
+              <div className="flex items-center justify-between">
+                <motion.div 
+                  className="flex-shrink-0 ml-0"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Link href="/">
+                    <h1 className={`text-3xl font-bold tracking-tight transition-all duration-300 cursor-pointer ${
+                      isScrolled ? 'text-white' : 'text-white drop-shadow-lg'
+                    }`}>
+                      NUHAA<span className="text-green-400">LENS</span>
+                    </h1>
+                  </Link>
+                </motion.div>
+
+                <nav className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center">
+                  <div className="flex items-center gap-8">
+                    {/* Home button now links to home page */}
+                    <NavItem 
+                      action={handleHomeClick} 
+                      label="HOME" 
+                      isActive={activeSection === 'home'}
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={handleServicesClick} 
+                      label="SERVICES" 
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={handleWhyUsClick} 
+                      label="WHY US" 
+                      isScrolled={isScrolled}
+                    />
+                    <NavItem 
+                      action={handleContactClick} 
+                      label="CONTACT" 
+                      isScrolled={isScrolled}
+                    />
+                  </div>
+                </nav>
+
+                <div className="flex-shrink-0">
+                  <LanguageToggle language={language} setLanguage={setLanguage} size="normal" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.header>
+      )}
+
+      {/* Mobile Navigation - Only visible on mobile */}
+      {!isDesktop && (
+        <>
+          <motion.div
+            className="fixed top-0 left-0 right-0 z-50"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <motion.div 
+              className={`transition-all duration-500 ${
+                isScrolled || isMobileMenuOpen
+                  ? 'bg-black/60 backdrop-blur-md shadow-lg shadow-black/20 py-3' 
+                  : 'pt-4 pb-3'
+              }`}
+            >
+              <div className="flex items-center justify-between px-2">
+                <div className="w-12"></div>
+
+                <Link href="/">
+                  <motion.div 
+                    className="cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="text-2xl font-bold text-white">
+                      NUHAA<span className="text-green-400">LENS</span>
+                    </span>
+                  </motion.div>
+                </Link>
+
+                <motion.button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors relative z-50"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <motion.div
+                    animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {isMobileMenuOpen ? (
+                      <X className="w-6 h-6 text-white" />
+                    ) : (
+                      <Menu className="w-6 h-6 text-white" />
+                    )}
+                  </motion.div>
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed inset-0 bg-black/60 backdrop-blur-xl z-40"
+                  style={{ top: '72px' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                />
+
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  className="fixed left-2 right-2 z-50 mt-2 bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl border border-white/20"
+                  style={{ top: '72px' }}
+                >
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4">
+                    <p className="text-white text-2xl font-light opacity-90">Menu</p>
+                  </div>
+
+                  <div className="p-4 space-y-2 max-h-[calc(100vh-120px)] overflow-y-auto">
+                    {/* Home - now links to home page */}
+                    <MobileDropdownItem
+                      icon={<Camera className="w-5 h-5" />}
+                      label="HOME"
+                      onClick={(e) => {
+                        handleHomeClick(e);
+                      }}
+                    />
+
+                    <MobileDropdownItem
+                      icon={<Sparkles className="w-5 h-5" />}
+                      label="SERVICES"
+                      onClick={handleServicesClick}
+                    />
+
+                    <MobileDropdownItem
+                      icon={<Award className="w-5 h-5" />}
+                      label="WHY US"
+                      onClick={handleWhyUsClick}
+                    />
+
+                    <MobileDropdownItem
+                      icon={<Phone className="w-5 h-5" />}
+                      label="CONTACT"
+                      onClick={handleContactClick}
+                    />
+
+                    <div className="my-4 border-t border-white/10"></div>
+
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">LANGUAGE</p>
+                      <div className="flex items-center gap-2">
+                        <motion.button
+                          onClick={() => {
+                            setLanguage('en');
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+                            language === 'en' 
+                              ? 'bg-green-600 text-white shadow-lg shadow-green-600/30' 
+                              : 'bg-white/10 text-white/70 hover:bg-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          ENGLISH
+                        </motion.button>
+                        <motion.button
+                          onClick={() => {
+                            setLanguage('bm');
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex-1 py-3 rounded-lg font-medium transition-all ${
+                            language === 'bm' 
+                              ? 'bg-green-600 text-white shadow-lg shadow-green-600/30' 
+                              : 'bg-white/10 text-white/70 hover:bg-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          MALAYSIA
+                        </motion.button>
+                      </div>
+                    </div>
+
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">QUICK ACTIONS</p>
+
+                      <div className="flex flex-col gap-4">
+                        <Link href="/portfolio" className="block">
+                          <motion.button
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="w-full bg-white/10 text-white py-3 rounded-lg font-medium border border-white/20 hover:bg-white/20 transition-colors"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            View Portfolio
+                          </motion.button>
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="px-4 py-3">
+                      <p className="text-white/50 text-xs mb-2 font-light">FOLLOW US</p>
+                      <div className="flex items-center gap-3">
+                        <motion.a
+                          href={socialLinks.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Instagram className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href={socialLinks.tiktok}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Music2 className="w-5 h-5 text-white" />
+                        </motion.a>
+                        <motion.a
+                          href={socialLinks.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-pink-600 transition-colors"
+                          whileHover={{ y: -3 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Facebook className="w-5 h-5 text-white" />
+                        </motion.a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+    </>
+  );
+}
+
 // Photography Categories with icons and colors
 const photographyCategories = (t: (key: string) => string) => [
   {
@@ -1086,14 +1552,14 @@ const services = (t: (key: string) => string) => [
   },
 ]
 
-// Add additional services - FIXED: Now returns proper structure with language-specific names
+// Add additional services
 const additionalServices = (t: (key: string) => string, language: Language) => photographyPackages.additional.map(item => ({
   id: item.name.en.toLowerCase().replace(/\s+/g, '-'),
-  name: item.name[language], // This now returns a string, not an object
+  name: item.name[language],
   basePrice: item.price,
   icon: Package,
-  description: item.features[language].join(' · '), // This now returns a string
-  features: item.features[language], // This now returns an array of strings
+  description: item.features[language].join(' · '),
+  features: item.features[language],
   color: 'from-green-500 to-emerald-500',
   hasSubServices: false,
   isAdditional: true
@@ -1123,25 +1589,6 @@ const mockBookings = [
   { date: '2026-04-15', status: 'partially-booked', services: ['content-creator', 'bride-assistant'] },
 ]
 
-// Floating particles for background effect
-const FloatingParticle = ({ delay = 0, size = 4, left = '0%', top = '0%' }) => (
-  <motion.div
-    className="absolute rounded-full bg-white/20"
-    style={{ left, top, width: size, height: size }}
-    animate={{
-      y: [0, -30, 0],
-      x: [0, 15, 0],
-      opacity: [0.2, 0.5, 0.2],
-    }}
-    transition={{
-      duration: 8,
-      delay,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }}
-  />
-)
-
 // Category Selection Modal
 interface CategoryModalProps {
   isOpen: boolean;
@@ -1170,7 +1617,6 @@ function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory,
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] flex flex-col relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center rounded-t-2xl">
           <h2 className="text-3xl font-light bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             {t('photographyPackages')}
@@ -1185,7 +1631,6 @@ function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory,
           </motion.button>
         </div>
 
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {categories.map((category, index) => {
@@ -1203,7 +1648,6 @@ function CategorySelectionModal({ isOpen, onClose, categories, onSelectCategory,
                   className="group cursor-pointer"
                 >
                   <div className={`bg-gradient-to-br ${category.color} rounded-xl p-6 text-white hover:shadow-xl transition-shadow relative overflow-hidden`}>
-                    {/* Background pattern */}
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                     
                     <div className="relative z-10">
@@ -1262,7 +1706,6 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage, t, 
         className="bg-white rounded-2xl max-w-4xl w-full max-h-[80vh] flex flex-col relative"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className={`flex-shrink-0 bg-gradient-to-r ${category.color} p-6 flex justify-between items-center text-white rounded-t-2xl`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
@@ -1283,7 +1726,6 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage, t, 
           </motion.button>
         </div>
 
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {category.packages.map((pkg: any, index: number) => (
@@ -1298,14 +1740,12 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage, t, 
                   onClose();
                 }}
               >
-                {/* Background gradient on hover */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5`}
                   initial={false}
                   transition={{ duration: 0.3 }}
                 />
 
-                {/* Popular tag for highest package */}
                 {index === category.packages.length - 1 && category.packages.length > 1 && (
                   <motion.div
                     initial={{ x: 100 }}
@@ -1316,7 +1756,7 @@ function PackageSelectionModal({ isOpen, onClose, category, onSelectPackage, t, 
                   </motion.div>
                 )}
 
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">{pkg.name[language]}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-green-600">{pkg.name[language]}</h3>
                 <div className="flex items-baseline gap-2 mb-4">
                   <span className="text-3xl font-bold text-green-600">
                     {pkg.price}
@@ -1365,7 +1805,6 @@ export default function BookingPage() {
   const [selectedPhotoPackages, setSelectedPhotoPackages] = useState<SelectedPhotoPackage[]>([])
   const [hoveredService, setHoveredService] = useState<string | null>(null)
   
-  // Modal states
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
   const [isPackageModalOpen, setIsPackageModalOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<any>(null)
@@ -1381,24 +1820,20 @@ export default function BookingPage() {
     message: '',
   })
   
-  // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateBookings, setDateBookings] = useState<any>(null)
 
-  // Translation function
   const t = (key: string): string => {
     return translations[key]?.[language] || key;
   };
 
-  // Get services with translations
   const servicesList = services(t);
   const additionalServicesList = additionalServices(t, language);
   const allServices = [...servicesList, ...additionalServicesList];
   const categories = photographyCategories(t);
 
-  // Generate calendar days for current month
   useEffect(() => {
     const year = currentMonth.getFullYear()
     const month = currentMonth.getMonth()
@@ -1408,19 +1843,16 @@ export default function BookingPage() {
     
     const days: Date[] = []
     
-    // Add previous month days to fill the first week
     const firstDayOfWeek = firstDay.getDay()
     for (let i = firstDayOfWeek - 1; i >= 0; i--) {
       const date = new Date(year, month, -i)
       days.push(date)
     }
     
-    // Add current month days
     for (let d = 1; d <= lastDay.getDate(); d++) {
       days.push(new Date(year, month, d))
     }
     
-    // Add next month days to fill the last week
     const lastDayOfWeek = lastDay.getDay()
     for (let i = 1; i < 7 - lastDayOfWeek; i++) {
       const date = new Date(year, month + 1, i)
@@ -1448,7 +1880,6 @@ export default function BookingPage() {
     const status = getBookingStatusForDate(date)
     setDateBookings(status)
     
-    // Update form data with selected date
     setFormData(prev => ({
       ...prev,
       eventDate: date.toISOString().split('T')[0]
@@ -1459,10 +1890,8 @@ export default function BookingPage() {
     const service = allServices.find(s => s.id === serviceId)
     
     if (service?.hasSubServices) {
-      // For photography, open category selection modal
       setIsCategoryModalOpen(true)
     } else {
-      // For regular services, just toggle
       setSelectedServices(prev =>
         prev.includes(serviceId)
           ? prev.filter(id => id !== serviceId)
@@ -1477,7 +1906,6 @@ export default function BookingPage() {
   }
 
   const handleSelectPackage = (categoryId: string, categoryName: string, packageIndex: number, pkg: any) => {
-    // Create selected package object
     const selectedPackage: SelectedPhotoPackage = {
       serviceId: 'photography',
       categoryId,
@@ -1489,22 +1917,18 @@ export default function BookingPage() {
       features: pkg.features[language]
     }
 
-    // Check if we already have a package from this category
     const existingIndex = selectedPhotoPackages.findIndex(
       p => p.categoryId === categoryId
     )
 
     if (existingIndex >= 0) {
-      // Replace existing package in this category
       const updatedPackages = [...selectedPhotoPackages]
       updatedPackages[existingIndex] = selectedPackage
       setSelectedPhotoPackages(updatedPackages)
     } else {
-      // Add new package
       setSelectedPhotoPackages([...selectedPhotoPackages, selectedPackage])
     }
 
-    // Ensure photography is in selected services
     if (!selectedServices.includes('photography')) {
       setSelectedServices(prev => [...prev, 'photography'])
     }
@@ -1514,7 +1938,6 @@ export default function BookingPage() {
     const updatedPackages = selectedPhotoPackages.filter((_, i) => i !== index)
     setSelectedPhotoPackages(updatedPackages)
     
-    // If no more photo packages, optionally remove photography from selected services
     if (updatedPackages.length === 0) {
       setSelectedServices(prev => prev.filter(id => id !== 'photography'))
     }
@@ -1527,22 +1950,17 @@ export default function BookingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Here you'll later integrate with Supabase
     console.log('Booking submitted:', { 
       selectedServices, 
       selectedPhotoPackages,
       formData 
     })
-    
-    // Move to confirmation step
     setStep(3)
   }
 
   const calculateTotalPrice = () => {
     let total = 0
     
-    // Add prices from regular services (excluding photography)
     selectedServices.forEach(serviceId => {
       if (serviceId !== 'photography') {
         const service = allServices.find(s => s.id === serviceId)
@@ -1558,7 +1976,6 @@ export default function BookingPage() {
       }
     })
     
-    // Add prices from photography packages
     selectedPhotoPackages.forEach(pkg => {
       const priceStr = pkg.price
         .replace('RM ', '')
@@ -1576,7 +1993,6 @@ export default function BookingPage() {
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   const weekDays = [t('sun'), t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat')]
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -1613,10 +2029,48 @@ export default function BookingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
+  // Scroll handlers for navigation
+  const scrollToServices = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const servicesSection = document.getElementById("services");
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = '/#services';
+    }
+  };
+
+  const scrollToWhyChooseUs = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const whyChooseUsSection = document.getElementById("why-choose-us");
+    if (whyChooseUsSection) {
+      whyChooseUsSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = '/#why-choose-us';
+    }
+  };
+
+  const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = '/#contact';
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      {/* Language Toggle */}
-      <LanguageToggle language={language} setLanguage={setLanguage} />
+      {/* Navigation Menu */}
+      <NavigationMenu 
+        language={language} 
+        setLanguage={setLanguage}
+        t={t}
+        scrollToServices={scrollToServices}
+        scrollToContact={scrollToContact}
+        scrollToWhyChooseUs={scrollToWhyChooseUs}
+      />
 
       {/* Category Selection Modal */}
       <CategorySelectionModal
@@ -1816,7 +2270,6 @@ export default function BookingPage() {
                   const isSelected = selectedServices.includes(service.id)
                   const isHovered = hoveredService === service.id
                   
-                  // Get photo packages for this service if it's photography
                   const photoPackages = service.id === 'photography' ? selectedPhotoPackages : []
                   
                   return (
@@ -1835,7 +2288,6 @@ export default function BookingPage() {
                           : 'border-gray-200 hover:border-gray-300 bg-white hover:shadow-xl'
                       }`}
                     >
-                      {/* Animated background effect */}
                       <motion.div 
                         className={`absolute inset-0 bg-gradient-to-r from-white/5 to-transparent ${isSelected ? 'opacity-20' : ''}`}
                         animate={{
@@ -1874,7 +2326,6 @@ export default function BookingPage() {
                                 isSelected ? 'text-white' : 'text-green-600'
                               }`}>{service.basePrice}</p>
                               
-                              {/* Show selected photo packages */}
                               {photoPackages.length > 0 && (
                                 <div className="mt-2 space-y-1">
                                   {photoPackages.map((pkg, idx) => (
@@ -1913,7 +2364,6 @@ export default function BookingPage() {
                           )}
                         </div>
 
-                        {/* Package selection buttons for photography */}
                         {service.id === 'photography' && (
                           <div className="mt-4 space-y-2">
                             <button
@@ -1931,7 +2381,6 @@ export default function BookingPage() {
                               {photoPackages.length > 0 ? t('addAnotherPackage') : t('selectPhotographyPackage')}
                             </button>
                             
-                            {/* List selected packages with remove buttons */}
                             {photoPackages.map((pkg, idx) => (
                               <div key={idx} className="flex items-center gap-2">
                                 <div className={`flex-1 text-xs ${
@@ -1958,7 +2407,6 @@ export default function BookingPage() {
                         )}
                       </div>
 
-                      {/* Features popup on hover */}
                       <AnimatePresence>
                         {isHovered && !isSelected && (
                           <motion.div
@@ -1980,7 +2428,6 @@ export default function BookingPage() {
                 })}
               </motion.div>
 
-              {/* Selected Services Summary */}
               <AnimatePresence>
                 {(selectedServices.length > 0 || selectedPhotoPackages.length > 0) && (
                   <motion.div
@@ -1995,7 +2442,6 @@ export default function BookingPage() {
                           {t('services')}: {selectedServices.length + selectedPhotoPackages.length}
                         </span>
                         
-                        {/* List regular services */}
                         <div className="space-y-2 mb-3">
                           {selectedServices
                             .filter(id => id !== 'photography')
@@ -2020,7 +2466,6 @@ export default function BookingPage() {
                             })}
                         </div>
                         
-                        {/* List photography packages */}
                         {selectedPhotoPackages.length > 0 && (
                           <div className="space-y-2">
                             <span className="text-sm font-bold text-black">{t('photographyPackages')}:</span>
@@ -2094,7 +2539,6 @@ export default function BookingPage() {
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     >
-                      <ArrowRight className="w-5 h-5 ml-2" />
                     </motion.div>
                   </span>
                   {selectedServices.length > 0 && (
@@ -2128,7 +2572,6 @@ export default function BookingPage() {
               </motion.h2>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Left Column - Calendar */}
                 <motion.div variants={itemVariants} className="space-y-6">
                   <motion.div 
                     whileHover={{ scale: 1.01 }}
@@ -2148,7 +2591,6 @@ export default function BookingPage() {
                       )}
                     </h3>
                     
-                    {/* Calendar Header */}
                     <div className="flex items-center justify-between mb-4">
                       <motion.button
                         whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,0,0,0.05)' }}
@@ -2178,7 +2620,6 @@ export default function BookingPage() {
                       </motion.button>
                     </div>
                     
-                    {/* Week Days */}
                     <div className="grid grid-cols-7 gap-1 mb-2">
                       {weekDays.map(day => (
                         <div key={day} className="text-center text-sm font-bold text-gray-600 py-2">
@@ -2187,7 +2628,6 @@ export default function BookingPage() {
                       ))}
                     </div>
                     
-                    {/* Calendar Days */}
                     <div className="grid grid-cols-7 gap-1">
                       {calendarDays.map((date, index) => {
                         const dateStr = date.toISOString().split('T')[0]
@@ -2234,7 +2674,6 @@ export default function BookingPage() {
                       })}
                     </div>
                     
-                    {/* Legend */}
                     <div className="mt-6 pt-4 border-t border-gray-200">
                       <div className="flex flex-wrap gap-4 text-sm">
                         <motion.div 
@@ -2266,7 +2705,6 @@ export default function BookingPage() {
                     </div>
                   </motion.div>
                   
-                  {/* Date Selection Info */}
                   <AnimatePresence>
                     {selectedDate && dateBookings && (
                       <motion.div
@@ -2309,154 +2747,146 @@ export default function BookingPage() {
                   </AnimatePresence>
                 </motion.div>
                 
-                {/* Right Column - Form Fields */}
-<motion.div variants={itemVariants} className="space-y-6">
-  {/* Name */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('fullName')} *</label>
-    <div className="relative group">
-      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        required
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('enterFullName')}
-      />
-      <motion.div 
-        className="absolute inset-0 rounded-lg pointer-events-none"
-        whileHover={{ boxShadow: '0 0 20px rgba(16,185,129,0.2)' }}
-      />
-    </div>
-  </motion.div>
+                <motion.div variants={itemVariants} className="space-y-6">
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('fullName')} *</label>
+                    <div className="relative group">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('enterFullName')}
+                      />
+                      <motion.div 
+                        className="absolute inset-0 rounded-lg pointer-events-none"
+                        whileHover={{ boxShadow: '0 0 20px rgba(16,185,129,0.2)' }}
+                      />
+                    </div>
+                  </motion.div>
 
-  {/* Email */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('emailAddress')} *</label>
-    <div className="relative group">
-      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleInputChange}
-        required
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('emailPlaceholder')}
-      />
-    </div>
-  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('emailAddress')} *</label>
+                    <div className="relative group">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('emailPlaceholder')}
+                      />
+                    </div>
+                  </motion.div>
 
-  {/* Phone */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('phoneNumber')} *</label>
-    <div className="relative group">
-      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <input
-        type="tel"
-        name="phone"
-        value={formData.phone}
-        onChange={handleInputChange}
-        required
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('phonePlaceholder')}
-      />
-    </div>
-  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('phoneNumber')} *</label>
+                    <div className="relative group">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('phonePlaceholder')}
+                      />
+                    </div>
+                  </motion.div>
 
-  {/* Instagram */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('instagramOptional')}</label>
-    <div className="relative group">
-      <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <input
-        type="text"
-        name="instagram"
-        value={formData.instagram}
-        onChange={handleInputChange}
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('instagramPlaceholder')}
-      />
-    </div>
-  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('instagramOptional')}</label>
+                    <div className="relative group">
+                      <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <input
+                        type="text"
+                        name="instagram"
+                        value={formData.instagram}
+                        onChange={handleInputChange}
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('instagramPlaceholder')}
+                      />
+                    </div>
+                  </motion.div>
 
-  {/* Event Location */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventLocation')} *</label>
-    <div className="relative group">
-      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <input
-        type="text"
-        name="eventLocation"
-        value={formData.eventLocation}
-        onChange={handleInputChange}
-        required
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('locationPlaceholder')}
-      />
-    </div>
-  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventLocation')} *</label>
+                    <div className="relative group">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <input
+                        type="text"
+                        name="eventLocation"
+                        value={formData.eventLocation}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('locationPlaceholder')}
+                      />
+                    </div>
+                  </motion.div>
 
-  {/* Event Type */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventType')} *</label>
-    <select
-      name="eventType"
-      value={formData.eventType}
-      onChange={handleInputChange}
-      required
-      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium transition-all shadow-sm"
-    >
-      <option value="wedding" className="text-gray-900">{t('wedding')}</option>
-      <option value="engagement" className="text-gray-900">{t('engagement')}</option>
-      <option value="corporate" className="text-gray-900">{t('corporate')}</option>
-      <option value="birthday" className="text-gray-900">{t('birthday')}</option>
-      <option value="maternity" className="text-gray-900">{t('maternity')}</option>
-      <option value="aqiqah" className="text-gray-900">{t('aqiqah')}</option>
-      <option value="convocation" className="text-gray-900">{t('convocation')}</option>
-      <option value="other" className="text-gray-900">{t('other')}</option>
-    </select>
-  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('eventType')} *</label>
+                    <select
+                      name="eventType"
+                      value={formData.eventType}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium transition-all shadow-sm"
+                    >
+                      <option value="wedding" className="text-gray-900">{t('wedding')}</option>
+                      <option value="engagement" className="text-gray-900">{t('engagement')}</option>
+                      <option value="corporate" className="text-gray-900">{t('corporate')}</option>
+                      <option value="birthday" className="text-gray-900">{t('birthday')}</option>
+                      <option value="maternity" className="text-gray-900">{t('maternity')}</option>
+                      <option value="aqiqah" className="text-gray-900">{t('aqiqah')}</option>
+                      <option value="convocation" className="text-gray-900">{t('convocation')}</option>
+                      <option value="other" className="text-gray-900">{t('other')}</option>
+                    </select>
+                  </motion.div>
 
-  {/* Message */}
-  <motion.div variants={itemVariants}>
-    <label className="block text-sm font-bold mb-2 text-gray-800">{t('specialRequests')}</label>
-    <div className="relative group">
-      <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
-      <textarea
-        name="message"
-        value={formData.message}
-        onChange={handleInputChange}
-        rows={4}
-        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
-        placeholder={t('tellUsAbout')}
-      />
-    </div>
-  </motion.div>
-</motion.div>
+                  <motion.div variants={itemVariants}>
+                    <label className="block text-sm font-bold mb-2 text-gray-800">{t('specialRequests')}</label>
+                    <div className="relative group">
+                      <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-gray-500 group-focus-within:text-green-600 transition-colors" />
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        rows={4}
+                        className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-800 font-medium placeholder-gray-400 transition-all"
+                        placeholder={t('tellUsAbout')}
+                      />
+                    </div>
+                  </motion.div>
+                </motion.div>
               </div>
 
               <motion.div 
                 variants={itemVariants}
                 className="flex gap-4 mt-10"
               >
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="button"
-                onClick={() => setStep(1)}
-                className="flex-1 border-2 border-gray-500 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-all relative overflow-hidden group"
-              >
-                <span className="relative z-10">{t('back')}</span>
-                <motion.div 
-                  className="absolute inset-0 bg-gray-700"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="flex-1 border-2 border-gray-500 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-700 hover:text-white transition-all relative overflow-hidden group"
+                >
+                  <span className="relative z-10">{t('back')}</span>
+                  <motion.div 
+                    className="absolute inset-0 bg-gray-700"
+                    initial={{ x: '-100%' }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.button>
                 <motion.button
                   whileHover={formData.eventDate ? { scale: 1.02 } : {}}
                   whileTap={formData.eventDate ? { scale: 0.98 } : {}}
@@ -2547,9 +2977,7 @@ export default function BookingPage() {
                     <span className="text-gray-800 font-extrabold">{selectedServices.length + selectedPhotoPackages.length}</span>
                   </div>
                   
-                  {/* List selected services */}
                   <div className="text-left space-y-3 pb-2 border-b border-green-400">
-                    {/* Regular services */}
                     {selectedServices
                       .filter(id => id !== 'photography')
                       .map((id, i) => {
@@ -2562,7 +2990,6 @@ export default function BookingPage() {
                         )
                       })}
                     
-                    {/* Photography packages */}
                     {selectedPhotoPackages.length > 0 && (
                       <div className="mt-2">
                         <span className="text-sm font-bold text-gray-600 block mb-2">{t('photographyPackages')}:</span>
@@ -2663,7 +3090,7 @@ export default function BookingPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="hover:text-green-400 transition">
+                  <Link href="/#services" className="hover:text-green-400 transition">
                     {t('services')}
                   </Link>
                 </li>
